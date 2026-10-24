@@ -493,6 +493,16 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
   .js .drop{opacity:1;animation:none!important;transform:translate(-50%,-50%)}
   .beam{display:none}
 }
+.nav-coffee{flex:none;display:grid;place-items:center;width:42px;height:40px;border-radius:11px;border:1px solid rgba(255,176,0,.45);background:radial-gradient(circle at 50% 120%,rgba(255,176,0,.22),rgba(255,46,136,.08) 70%);transition:transform .2s,box-shadow .2s,border-color .2s}
+.nav-coffee:hover{transform:translateY(-2px);border-color:var(--amber);box-shadow:0 8px 24px -8px rgba(255,150,40,.8)}
+.nav-coffee:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.nav-coffee svg{width:26px;height:26px;overflow:visible}
+.nav-coffee .st path{fill:none;stroke:rgba(255,220,170,.85);stroke-width:2.2;stroke-linecap:round;animation:steam 2.6s ease-in-out infinite;opacity:0}
+.nav-coffee .st path:nth-child(2){animation-delay:.9s}
+@media (max-width:520px){.nav-in>.btn-dl{display:none}.nav-coffee{margin-left:auto}}
+@media (max-width:360px){.nav .logo{gap:7px}.nav .logo span{font-size:16px}.nav .logo img{width:28px;height:28px}.nav-in{gap:6px}.lang a{padding:9px 6px}.nav-coffee{width:34px;height:34px}.nav-coffee svg{width:22px;height:22px}}
+@media (max-width:440px){.nav-coffee{width:36px;height:36px}.nav-in{gap:8px}}
+@media (prefers-reduced-motion:reduce){.nav-coffee .st path{animation:none;opacity:.7}}
 .lang{display:flex;flex:none;border:1px solid var(--line2);border-radius:11px;overflow:hidden;font:700 12.5px/1 var(--f-head);letter-spacing:.08em}
 .lang a{padding:10px 11px;color:var(--mute2);text-decoration:none;transition:background .2s,color .2s}
 .lang a:hover{color:var(--ink);background:rgba(255,255,255,.04)}
@@ -523,6 +533,9 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
     <a class="btn btn-dl" href="https://github.com/khoron-ip/numora/releases/download/v1.2.0/Numora-Setup-1.2.0.exe" download aria-label="Download for free">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
       <span>Free<span class="t-long"> download</span></span>
+    </a>
+    <a class="nav-coffee" href="https://paypal.me/GrunwaldPhotography" target="_blank" rel="noopener" title="Enjoying Numora? Buy me a coffee ☕" aria-label="Buy me a coffee via PayPal (opens new tab)">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><g class="st"><path d="M12 9c-2-3 2-4 0-7"/><path d="M18 9c-2-3 2-4 0-7"/></g><path d="M5 12h20v7a8 8 0 0 1-8 8h-4a8 8 0 0 1-8-8z" fill="url(#ncG)"/><path d="M25 14h2a3.5 3.5 0 0 1 0 7h-2.3" fill="none" stroke="#ffb000" stroke-width="2.2"/><ellipse cx="15" cy="12" rx="10" ry="1.8" fill="#5a2e10"/><defs><linearGradient id="ncG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffcf5a"/><stop offset=".55" stop-color="#ff8a3d"/><stop offset="1" stop-color="#ff2e88"/></linearGradient></defs></svg>
     </a>
     <div class="lang" role="group" aria-label="Sprache / Language"><a href="../" lang="de" hreflang="de">DE</a><a href="./" lang="en" hreflang="en" aria-current="page">EN</a></div>
     <button class="burger" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Open menu"><span></span><span></span><span></span></button>
