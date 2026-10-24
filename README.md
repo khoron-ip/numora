@@ -14,4 +14,4 @@ Dieses Repository enthält die Website (GitHub Pages). Der Installer liegt unter
 
 SHA-256 (Numora-Setup-1.2.0.exe): `F508B4101E99DCFFF066B3BC64301B6DF89D40503D459F2EE002CF96739C9A9F`
 
-© 2026 Grunwald Mediengestaltung
+© 2026 Grunwald Photography · [Impressum](https://khoron-ip.github.io/numora/impressum.html) · [Datenschutz](https://khoron-ip.github.io/numora/datenschutz.html)
