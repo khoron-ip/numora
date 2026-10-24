@@ -4,6 +4,7 @@
 
 🌐 Website: https://khoron-ip.github.io/numora/
 ⬇️ Download: [Numora-Setup-1.2.0.exe](https://github.com/khoron-ip/numora/releases/download/v1.2.0/Numora-Setup-1.2.0.exe)
+☕ Dir gefällt Numora? [Spendier mir einen Kaffee](https://paypal.me/GrunwaldPhotography) · 💬 [Feedback per E-Mail](mailto:grunwald_photography@gmx.de) · 🐞 [Fehler melden](https://github.com/khoron-ip/numora/issues/new)
 
 Numora bringt viele Fotos schnell in die gewünschte Reihenfolge und exportiert sie als 001.jpg, 002.jpg …
 – mit Großansicht, Auswahl-Fenster, frei belegbarer Tastatur-/Controller-Steuerung und 17 Designs

@@ -964,11 +964,94 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
   </div>
 </section>
 
-<!-- ================= FAQ ================= -->
-<section class="sec" id="faq" data-no="008" style="padding-top:clamp(30px,4vw,60px)">
-  <div class="wrap faq-grid">
+<!-- ================= UNTERSTÜTZEN & FEEDBACK ================= -->
+<style>
+.sup-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(16px,2.4vw,28px);align-items:stretch}
+.sup-card{position:relative;border-radius:24px;padding:clamp(24px,3.4vw,40px);border:1px solid var(--line2);background:var(--glass);overflow:hidden}
+.sup-coffee{border-color:rgba(255,176,0,.38);background:radial-gradient(520px 260px at 0% 0%,rgba(255,176,0,.16),transparent 70%),radial-gradient(420px 240px at 100% 100%,rgba(255,46,136,.12),transparent 70%),var(--glass)}
+.sup-coffee h3,.sup-fb h3{font:800 clamp(24px,2.8vw,34px)/1.12 var(--f-disp);letter-spacing:-.01em;margin:14px 0 12px}
+.sup-coffee h3 em{font-style:normal;background:linear-gradient(90deg,var(--amber),var(--mag));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sup-card p{color:var(--mute2);margin:0 0 14px}
+.sup-top{display:flex;align-items:center;gap:18px}
+.sup-tag{font:700 12px var(--f-head);letter-spacing:3px;text-transform:uppercase;color:var(--amber)}
+.sup-fb .sup-tag{color:var(--cyan)}
+.cup{width:92px;height:92px;flex:none}
+.cup .steam path{fill:none;stroke:rgba(255,220,170,.75);stroke-width:3;stroke-linecap:round;animation:steam 2.6s ease-in-out infinite;opacity:0}
+.cup .steam path:nth-child(2){animation-delay:.6s}.cup .steam path:nth-child(3){animation-delay:1.2s}
+@keyframes steam{0%{opacity:0;transform:translateY(8px)}35%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
+.btn-coffee{background:linear-gradient(135deg,var(--amber),#ff7a3d 60%,var(--mag));color:#1a0b00;font-weight:700;box-shadow:0 0 0 1px rgba(255,176,0,.45),0 12px 40px -10px rgba(255,140,40,.7)}
+.btn-coffee:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(255,176,0,.7),0 16px 46px -10px rgba(255,140,40,.9)}
+.btn-coffee svg,.sup-fb .btn svg{width:20px;height:20px;flex:none}
+.sup-small{display:block;margin-top:12px;font-size:13.5px;color:var(--mute)}
+.sup-perks{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 22px;padding:0;list-style:none}
+.sup-perks li{font:600 13px var(--f-head);color:#ffe7c2;border:1px solid rgba(255,176,0,.3);background:rgba(255,176,0,.07);padding:6px 11px;border-radius:999px}
+.sup-fb{border-color:rgba(34,228,255,.3);background:radial-gradient(480px 240px at 100% 0%,rgba(34,228,255,.12),transparent 70%),var(--glass);display:flex;flex-direction:column}
+.sup-fb .acts{display:flex;flex-direction:column;gap:12px;margin-top:auto}
+.sup-fb .btn{justify-content:center;white-space:normal;text-align:center}
+.fb-chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 22px}
+.fb-chips span{font:600 13px var(--f-head);color:#d9f7ff;border:1px solid rgba(34,228,255,.28);background:rgba(34,228,255,.06);padding:6px 11px;border-radius:999px}
+@media (max-width:900px){.sup-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.sup-top{flex-direction:column;align-items:flex-start}.btn-coffee{width:100%;justify-content:center}}
+@media (prefers-reduced-motion:reduce){.cup .steam path{animation:none;opacity:.7}}
+</style>
+<section class="sec" id="unterstuetzen" data-no="008" style="padding-top:clamp(30px,4vw,60px)">
+  <div class="wrap">
     <header class="sec-head">
       <span class="sec-no" aria-hidden="true">008</span>
+      <div><span class="kicker">Unterstützen &amp; Feedback</span><h2>Dir gefällt <span class="grad">Numora?</span></h2></div>
+      <p>Numora ist kostenlos und bleibt es auch. Wenn es dir Zeit spart, freue ich mich über einen Kaffee – und noch mehr über deine Ideen.</p>
+    </header>
+    <div class="sup-grid">
+      <div class="sup-card sup-coffee rv d1">
+        <div class="sup-top">
+          <svg class="cup" viewBox="0 0 96 96" aria-hidden="true">
+            <g class="steam"><path d="M34 30c-4-6 4-9 0-16"/><path d="M48 30c-4-6 4-9 0-16"/><path d="M62 30c-4-6 4-9 0-16"/></g>
+            <path d="M20 40h52v18a22 22 0 0 1-22 22h-8a22 22 0 0 1-22-22z" fill="url(#cupG)"/>
+            <path d="M72 46h5a9 9 0 0 1 0 18h-6" fill="none" stroke="#ffb000" stroke-width="5"/>
+            <ellipse cx="46" cy="40" rx="26" ry="5" fill="#5a2e10"/>
+            <path d="M14 84h64" stroke="rgba(255,176,0,.5)" stroke-width="4" stroke-linecap="round"/>
+            <defs><linearGradient id="cupG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffcf5a"/><stop offset=".55" stop-color="#ff8a3d"/><stop offset="1" stop-color="#ff2e88"/></linearGradient></defs>
+          </svg>
+          <div>
+            <span class="sup-tag">Unterstützen</span>
+            <h3>Dann spendier mir doch meinen <em>nächsten Kaffee</em> ;)</h3>
+          </div>
+        </div>
+        <p>Hinter Numora steckt viel Feierabend-Arbeit – und noch mehr Kaffee. Mit einer kleinen Spende hilfst du, dass neue Designs, Funktionen und Updates entstehen.</p>
+        <ul class="sup-perks"><li>Betrag frei wählbar</li><li>Sicher über PayPal</li><li>Numora bleibt kostenlos</li></ul>
+        <!-- PayPal-Link: PayPal.me oder PayPal-Spendenbutton – zeigt die E-Mail-Adresse nicht an -->
+        <a class="btn btn-coffee" href="https://paypal.me/GrunwaldPhotography" target="_blank" rel="noopener" id="coffeeBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg>
+          Kaffee spendieren
+        </a>
+        <small class="sup-small">Du wirst zu PayPal weitergeleitet. Danke, dass du Numora unterstützt! ☕</small>
+      </div>
+      <div class="sup-card sup-fb rv d2">
+        <span class="sup-tag">Feedback</span>
+        <h3>Ideen, Lob oder einen Fehler gefunden?</h3>
+        <p>Numora wird mit deinem Feedback besser. Schreib mir, was dir gefällt, was fehlt oder welches Design du dir als Nächstes wünschst.</p>
+        <div class="fb-chips"><span>Design-Wunsch</span><span>Funktionsidee</span><span>Fehler gefunden</span><span>Lob</span></div>
+        <div class="acts">
+          <a class="btn btn-dl" href="mailto:grunwald_photography@gmx.de?subject=Numora%20Feedback%20(v1.2.0)&amp;body=Hallo%20Stephan%2C%0D%0A%0D%0Amein%20Feedback%20zu%20Numora%3A%0D%0A%0D%0A%0D%0A---%0D%0ANumora-Version%3A%201.2.0%0D%0AWindows-Version%3A%20">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            Feedback per E-Mail
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/khoron-ip/numora/issues/new" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+            Fehler auf GitHub melden
+          </a>
+          <small class="sup-small" style="margin-top:2px">Für GitHub brauchst du ein kostenloses GitHub-Konto – die Meldung ist dort öffentlich sichtbar.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec" id="faq" data-no="009" style="padding-top:clamp(30px,4vw,60px)">
+  <div class="wrap faq-grid">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">009</span>
       <div><span class="kicker">FAQ</span><h2>Gute <span class="grad">Fragen.</span></h2></div>
     </header>
     <div class="faq">
@@ -981,6 +1064,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
       <details><summary><span class="q">Q07</span>Warum warnt mein Virenscanner?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Numora ist (noch) nicht digital signiert. Manche Virenscanner (z. B. Avast) oder Windows SmartScreen warnen deshalb beim ersten Download – ein bekannter Fehlalarm bei neuen, unsignierten Programmen. Bei SmartScreen klickst du auf „Weitere Informationen“ → „Trotzdem ausführen“.</p><p>Zur Prüfung findest du im <a href="#download">Download-Bereich</a> die SHA-256-Prüfsumme des Installers.</p></div></details>
       <details><summary><span class="q">Q08</span>Wie deinstalliere ich Numora?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Ganz normal über Windows, wie jedes andere Programm.</p></div></details>
       <details><summary><span class="q">Q09</span>Brauche ich Administratorrechte?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Nein. Die Installation funktioniert ohne Administratorrechte und legt Verknüpfungen im Startmenü und auf dem Desktop an.</p></div></details>
+      <details><summary><span class="q">Q10</span>Wie kann ich Numora unterstützen oder Feedback geben?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Am einfachsten über den Bereich <a href="#unterstuetzen">Unterstützen &amp; Feedback</a>: Dort kannst du mir per PayPal einen Kaffee spendieren oder mir per E-Mail schreiben. Fehler kannst du auch auf GitHub melden.</p></div></details>
     </div>
   </div>
 </section>
@@ -995,6 +1079,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
       <a href="#steuerung">Steuerung</a>
       <a href="#download">Download</a>
       <a href="#faq">FAQ</a>
+      <a href="#unterstuetzen">☕ Unterstützen</a>
       <a href="impressum.html" id="impressum">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
     </nav>
