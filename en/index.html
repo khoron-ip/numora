@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numora – Number your photos with keyboard & controller | Free for Windows</title>
+<meta name="description" content="Numora quickly puts lots of photos in order with keyboard or game controller and exports them as 001.jpg, 002.jpg … Free, fully offline, 17 designs. For Windows 10/11.">
+<meta name="theme-color" content="#05070d">
+<link rel="icon" type="image/png" href="../assets/numora-icon.png">
+<link rel="apple-touch-icon" href="../assets/numora-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Numora – Bring order to your photos. Number by number.">
+<meta property="og:description" content="Sort and number photos with keyboard or game controller. Free, offline, 17 designs – for Windows.">
+<meta property="og:image" content="https://khoron-ip.github.io/numora/assets/screens/design-neon.jpg">
+<meta property="og:image:width" content="1440">
+<meta property="og:image:height" content="900">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="de" href="https://khoron-ip.github.io/numora/">
+<link rel="alternate" hreflang="en" href="https://khoron-ip.github.io/numora/en/">
+<link rel="alternate" hreflang="x-default" href="https://khoron-ip.github.io/numora/">
+<link href="../assets/fonts/fonts.css" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --bg:#05070d; --bg2:#0a0f1c; --bg3:#0f1628;
+  --ink:#e6ecff; --mute:#8a96b8; --mute2:#a9b4d3;
+  --line:rgba(150,170,230,.14); --line2:rgba(150,170,230,.24);
+  --cyan:#22e4ff; --lila:#b25cff; --amber:#ffb000; --mag:#ff2e88;
+  --glass:rgba(16,24,44,.55);
+  --f-disp:"Unbounded",system-ui,sans-serif;
+  --f-head:"Space Grotesk",system-ui,sans-serif;
+  --f-num:"Orbitron",ui-monospace,monospace;
+  --f-body:"Manrope",system-ui,sans-serif;
+  --wrap:1240px; --gut:clamp(16px,4vw,40px);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--f-body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;font-weight:700;line-height:1.08;letter-spacing:-.02em}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--cyan);color:#001;padding:8px 14px;border-radius:8px;z-index:100;font-weight:700}
+.skip:focus{left:12px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* page atmosphere: fine grid + grain */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(120,150,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(120,150,255,.045) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(ellipse 120% 80% at 50% 0%,#000 30%,transparent 85%)}
+body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:1;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,header,footer{position:relative;z-index:2}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font:600 16px/1 var(--f-head);border-radius:14px;padding:16px 22px;border:1px solid transparent;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s,background .25s,border-color .25s;white-space:nowrap}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-dl{background:var(--cyan);color:#021018;box-shadow:0 0 0 1px rgba(34,228,255,.4),0 10px 40px -8px rgba(34,228,255,.55);position:relative;overflow:hidden}
+.btn-dl::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);transition:transform .7s var(--ease)}
+.btn-dl:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(34,228,255,.6),0 18px 50px -10px rgba(178,92,255,.7)}
+.btn-dl:hover::after{transform:translateX(120%)}
+.btn-dl:active{transform:translateY(0) scale(.98)}
+.btn-dl .meta{display:block;font:600 12px/1.2 var(--f-body);opacity:.75;margin-top:5px;letter-spacing:.01em}
+.btn-dl .lbl{display:flex;flex-direction:column;align-items:flex-start}
+.btn-ghost{color:var(--ink);border-color:var(--line2);background:rgba(255,255,255,.02)}
+.btn-ghost:hover{border-color:var(--lila);background:rgba(178,92,255,.08);transform:translateY(-2px)}
+.btn-ghost:active{transform:none}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(5,7,13,.86);border-bottom:1px solid var(--line)}
+.nav::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan) 30%,var(--lila) 70%,transparent);opacity:.5}
+.nav-in{display:flex;align-items:center;gap:24px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 21px/1 var(--f-num);letter-spacing:.04em}
+.logo img{width:34px;height:34px;border-radius:9px;box-shadow:0 0 18px rgba(34,228,255,.35)}
+.logo b{background:linear-gradient(90deg,var(--cyan),var(--lila));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:4px;margin-left:12px}
+.nav-links a{text-decoration:none;font:500 15px/1 var(--f-head);color:var(--mute2);padding:10px 12px;border-radius:9px;transition:color .2s,background .2s}
+.nav-links a:hover,.nav-links a.on{color:var(--ink);background:rgba(255,255,255,.05)}
+.nav-links a.on{box-shadow:inset 0 -2px 0 var(--cyan)}
+.counter{margin-left:auto;display:flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;font:600 10px/1 var(--f-head);letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+.counter div{padding:6px 12px 7px}
+.counter div+div{border-left:1px solid var(--line)}
+.counter b{display:block;font:700 15px/1 var(--f-num);color:var(--ink);letter-spacing:.06em;margin-top:4px}
+.counter .nx b{color:var(--cyan)}
+.nav .btn{padding:11px 16px;font-size:14px;border-radius:11px}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--line2);color:var(--ink);border-radius:10px;width:44px;height:44px;cursor:pointer}
+.burger span{display:block;width:18px;height:2px;background:currentColor;margin:4px auto;transition:transform .25s}
+@media (max-width:1080px){.counter{display:none}.nav-in .btn{margin-left:auto}}
+@media (max-width:880px){
+  .js .nav-links{position:absolute;top:68px;left:0;right:0;flex-direction:column;background:#070a14;border-bottom:1px solid var(--line);padding:10px var(--gut) 18px;margin:0;display:none}
+  .js .nav-links a{padding:14px 12px;font-size:17px}
+  .js .nav.open .nav-links{display:flex}
+  .js .burger{display:block;margin-left:0}
+  .nav-in .btn{margin-left:auto}
+  html:not(.js) .nav-in{flex-wrap:wrap;height:auto;padding-top:12px;padding-bottom:8px;row-gap:6px}
+  html:not(.js) .nav-in>nav{order:3;width:100%}
+  html:not(.js) .nav-links{margin:0;flex-wrap:wrap}
+}
+@media (max-width:440px){.nav .btn .t-long{display:none}.nav .btn{padding:11px 13px}.nav-in{gap:12px}}
+
+/* ---------- section scaffolding & self-numbering ---------- */
+section{position:relative}
+.sec{padding:clamp(60px,7.5vw,100px) 0}
+.sec-head{display:grid;grid-template-columns:auto 1fr;gap:10px 28px;align-items:start;margin-bottom:clamp(40px,6vw,72px);max-width:980px}
+.sec-no{grid-row:span 2;font:800 clamp(15px,1.6vw,18px)/1 var(--f-num);letter-spacing:.08em;color:#e9fbff;padding:12px 14px;border-radius:10px;border:1px solid rgba(34,228,255,.55);background:linear-gradient(180deg,rgba(34,228,255,.16),rgba(178,92,255,.10));box-shadow:0 0 24px -6px rgba(34,228,255,.6),inset 0 0 12px rgba(34,228,255,.18);margin-top:6px;min-width:76px;text-align:center}
+.js .sec-no{opacity:0;transform:translateY(-40px) scale(1.4)}
+.js .sec-no.in{animation:stamp .7s var(--ease) forwards}
+@keyframes stamp{0%{opacity:0;transform:translateY(-40px) scale(1.4)}60%{opacity:1;transform:translateY(3px) scale(.96)}100%{opacity:1;transform:none}}
+.kicker{font:600 13px/1 var(--f-head);text-transform:uppercase;letter-spacing:.2em;color:var(--cyan);margin-bottom:14px;display:block}
+.sec-head h2{font-family:var(--f-disp);font-size:clamp(32px,5vw,60px);font-weight:700}
+.sec-head p{color:var(--mute2);font-size:clamp(17px,1.5vw,19px);max-width:640px;margin-top:18px}
+@media (max-width:560px){.sec-head{grid-template-columns:minmax(0,1fr)}.sec-no{grid-row:auto;justify-self:start}}
+.grad{background:linear-gradient(95deg,var(--cyan),var(--lila));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+
+/* ---------- HERO ---------- */
+.hero{padding:clamp(48px,8vw,96px) 0 clamp(60px,8vw,110px);overflow:hidden;--mx:65%;--my:30%}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(600px 420px at var(--mx) var(--my),rgba(34,228,255,.16),transparent 70%),
+    radial-gradient(700px 520px at calc(100% - var(--mx) + 20%) calc(var(--my) + 30%),rgba(178,92,255,.16),transparent 70%);
+  transition:background .2s}
+.beam{position:absolute;top:-120px;width:340px;height:900px;pointer-events:none;filter:blur(30px);opacity:.5;transform-origin:50% 0;mix-blend-mode:screen}
+.beam.b1{left:48%;background:linear-gradient(180deg,rgba(34,228,255,.5),transparent 75%);clip-path:polygon(45% 0,55% 0,100% 100%,0 100%);transform:rotate(calc(18deg + var(--rot,0deg)))}
+.beam.b2{left:70%;background:linear-gradient(180deg,rgba(178,92,255,.55),transparent 75%);clip-path:polygon(45% 0,55% 0,100% 100%,0 100%);transform:rotate(calc(-14deg - var(--rot,0deg)))}
+.hero-grid{display:grid;grid-template-columns:minmax(0,11fr) minmax(0,13fr);gap:clamp(30px,4vw,56px);align-items:center;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font:600 13px/1 var(--f-head);letter-spacing:.06em;color:var(--mute2);border:1px solid var(--line2);border-radius:999px;padding:7px 14px 7px 8px;background:rgba(255,255,255,.02)}
+.eyebrow i{font:700 11px/1 var(--f-num);font-style:normal;color:#021018;background:var(--cyan);padding:5px 8px;border-radius:999px;letter-spacing:.06em}
+.hero h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(38px,4.9vw,70px);line-height:1.02;letter-spacing:-.035em;margin:26px 0 24px}
+.hero h1 .l2{display:block;font-family:var(--f-num);font-weight:800;letter-spacing:-.01em;font-size:.86em;margin-top:.12em}
+.hero .lead{font-size:clamp(17px,1.5vw,20px);color:var(--mute2);max-width:520px}
+.hero .lead kbd{font-size:1em;min-width:1.7em;height:1.55em;vertical-align:.05em}
+.k.sym{font-family:var(--f-head);font-weight:700;font-size:1em}
+.keys .k.sym,.kb li .k.sym{font-size:17px}
+.ticker{margin:28px 0 34px;display:flex;align-items:center;gap:12px;font:500 14px/1 ui-monospace,Consolas,monospace;color:var(--mute);height:40px;border-left:2px solid var(--cyan);padding-left:14px;max-width:440px}
+.ticker .win{position:relative;height:22px;overflow:hidden;flex:1}
+.ticker .row{display:flex;gap:10px;align-items:center;height:22px;white-space:nowrap}
+.ticker .row .to{color:var(--cyan);font-weight:700}
+.ticker .row .ar{color:var(--lila)}
+.js .ticker .rows{transition:transform .55s var(--ease)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.cta-note{margin-top:18px;font-size:14px;color:var(--mute)}
+
+.stage{perspective:1600px;position:relative}
+.frame{position:relative;border-radius:16px;padding:10px;background:linear-gradient(160deg,rgba(34,228,255,.35),rgba(178,92,255,.25) 50%,rgba(255,255,255,.04));
+  transform:rotateY(-11deg) rotateX(6deg) rotateZ(.5deg);transform-style:preserve-3d;transition:transform .5s var(--ease);
+  box-shadow:0 60px 120px -40px rgba(0,0,0,.9),0 0 90px -20px rgba(34,228,255,.45),-40px 40px 120px -40px rgba(178,92,255,.5)}
+.frame-bar{display:flex;align-items:center;gap:7px;padding:4px 6px 10px}
+.frame-bar span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.18)}
+.frame-bar em{font:600 11px/1 var(--f-head);color:rgba(230,236,255,.6);font-style:normal;margin-left:10px;letter-spacing:.05em}
+.frame .shot{position:relative;border-radius:8px;overflow:hidden;background:#0a0f1c}
+.frame .shot img{width:100%}
+.frame::after{content:"";position:absolute;inset:10px;border-radius:10px;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.14),transparent 30%)}
+.drop{position:absolute;top:54.4%;width:9.4%;transform:translate(-50%,-50%);font:800 clamp(9px,1.45vw,21px)/1 var(--f-num);color:#eaffff;text-align:center;padding:.55em 0;border-radius:.45em;border:1px solid rgba(34,228,255,.75);background:rgba(8,20,32,.82);box-shadow:0 0 18px rgba(34,228,255,.65),inset 0 0 10px rgba(34,228,255,.25);letter-spacing:.04em}
+.drop.d7{left:8.9%}.drop.d8{left:25.1%}.drop.d9{left:41.3%}
+.js .drop{opacity:0;animation:fall 7.5s var(--ease) infinite}
+.js .drop.d8{animation-delay:.6s}.js .drop.d9{animation-delay:1.2s}
+@keyframes fall{0%{opacity:0;transform:translate(-50%,-260%) scale(1.5)}9%{opacity:1;transform:translate(-50%,-42%) scale(.95)}13%{transform:translate(-50%,-50%) scale(1)}78%{opacity:1;transform:translate(-50%,-50%)}88%,100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}}
+.next-chip{position:absolute;right:-6px;bottom:-26px;display:flex;align-items:center;gap:10px;background:#0b1222;border:1px solid var(--line2);border-radius:12px;padding:10px 14px;font:600 11px/1 var(--f-head);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);box-shadow:0 20px 50px -20px #000;transform:translateZ(60px)}
+.next-chip b{font:800 20px/1 var(--f-num);color:var(--cyan);letter-spacing:.04em}
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .stage{margin-top:20px}
+  .frame{transform:rotateX(8deg) rotateY(-6deg)}
+}
+
+/* ---------- benefits strip ---------- */
+.perks{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(34,228,255,.04),rgba(178,92,255,.05))}
+.perks ul{display:grid;grid-template-columns:repeat(5,1fr)}
+.perks li{display:flex;align-items:center;gap:14px;padding:26px 18px;font:600 15px/1.3 var(--f-head)}
+.perks li+li{border-left:1px solid var(--line)}
+.perks svg{width:28px;height:28px;flex:none;stroke:var(--cyan);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.perks li:nth-child(even) svg{stroke:var(--lila)}
+.perks small{display:block;font:500 13px/1.3 var(--f-body);color:var(--mute);margin-top:3px}
+@media (max-width:1080px){.perks ul{grid-template-columns:repeat(3,1fr)}.perks li:nth-child(4){border-left:0}.perks li:nth-child(n+4){border-top:1px solid var(--line)}}
+@media (max-width:640px){.perks ul{grid-template-columns:repeat(2,minmax(0,1fr))}.perks li{padding:20px 10px}.perks li:nth-child(odd){border-left:0}.perks li:nth-child(4){border-left:1px solid var(--line)}.perks li:nth-child(n+3){border-top:1px solid var(--line)}.perks li:last-child{grid-column:span 2}}
+
+/* ---------- how it works ---------- */
+.how-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(30px,5vw,70px);align-items:start}
+.steps{counter-reset:s;display:grid;gap:8px}
+.step{display:grid;grid-template-columns:62px 1fr;gap:18px;padding:22px 20px;border-radius:16px;border:1px solid transparent;transition:background .3s,border-color .3s}
+.step.on{background:var(--glass);border-color:var(--line2)}
+.step .n{font:800 18px/1 var(--f-num);color:var(--mute);border:1px solid var(--line2);border-radius:10px;height:44px;display:grid;place-items:center;transition:all .3s}
+.step.on .n{color:#021018;background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 22px rgba(34,228,255,.5)}
+.step h3{font:700 20px/1.25 var(--f-head);margin-bottom:6px}
+.step p{color:var(--mute2);font-size:16px}
+.k{display:inline-grid;place-items:center;min-width:1.9em;height:1.75em;padding:0 .45em;font:700 .78em/1 var(--f-num);color:var(--ink);background:linear-gradient(180deg,#1b2440,#111830);border:1px solid var(--line2);border-bottom-width:3px;border-radius:6px;vertical-align:.1em;margin:0 1px}
+
+.demo{position:sticky;top:96px;border-radius:20px;border:1px solid var(--line2);background:linear-gradient(180deg,#0b1122,#070b16);padding:18px;box-shadow:0 40px 100px -40px rgba(0,0,0,.9),0 0 0 1px rgba(34,228,255,.05)}
+.demo-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font:600 11px/1 var(--f-head);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.demo-top b{font:800 15px/1 var(--f-num);color:var(--cyan);letter-spacing:.06em;margin-left:6px}
+.demo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tile{position:relative;border-radius:10px;overflow:hidden;border:2px solid transparent;transition:border-color .2s,box-shadow .2s,transform .2s;background:#0d1426}
+.tile img{aspect-ratio:3/2;object-fit:cover;width:100%}
+.tile .num{position:absolute;inset:auto 0 0 0;top:0;display:grid;place-items:center;pointer-events:none}
+.tile .num span{font:800 clamp(13px,1.8vw,22px)/1 var(--f-num);padding:.45em .6em;border-radius:8px;background:rgba(6,14,26,.85);border:1px solid rgba(34,228,255,.7);box-shadow:0 0 14px rgba(34,228,255,.5);color:#eaffff;animation:pop .35s var(--ease)}
+@keyframes pop{0%{transform:scale(1.8) translateY(-14px);opacity:0}100%{transform:none;opacity:1}}
+.tile.cur{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,228,255,.18),0 0 26px -4px rgba(34,228,255,.7)}
+.tile .mk{position:absolute;top:6px;right:6px;font:800 10px/1 var(--f-num);color:#1a1000;background:var(--amber);padding:4px 6px;border-radius:5px}
+.tile.ma,.tile.mb{border-color:var(--amber)}
+.tile .fn{display:block;font:500 11.5px/1 ui-monospace,Consolas,monospace;color:var(--mute);padding:6px 7px 7px}
+.tile .fn b{color:var(--cyan);font-weight:700}
+.keys{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;align-items:center}
+.keys .k{font-size:14px;transition:all .15s}
+.keys .k.down{background:var(--cyan);color:#021018;border-color:var(--cyan);transform:translateY(2px);border-bottom-width:1px;box-shadow:0 0 18px rgba(34,228,255,.7)}
+.keys .k.wide{min-width:4.2em}
+.caption{margin-top:14px;min-height:48px;font:500 15px/1.45 var(--f-body);color:var(--mute2);border-top:1px solid var(--line);padding-top:12px}
+.caption b{color:var(--ink)}
+.strip{display:flex;gap:6px;margin-top:12px;padding:8px;border:1px dashed var(--line2);border-radius:10px;min-height:52px;align-items:center;transition:border-color .3s,box-shadow .3s}
+.strip.pulse{border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,176,0,.15)}
+.strip .lab{font:600 10px/1.2 var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-right:6px;width:70px}
+.strip figure{margin:0;position:relative;width:54px;border-radius:5px;overflow:hidden;flex:none}
+.strip figure img{aspect-ratio:3/2;object-fit:cover}
+.strip figure figcaption{position:absolute;inset:0;display:grid;place-items:center;font:800 10px/1 var(--f-num);color:#fff;background:rgba(0,0,0,.35);text-shadow:0 0 6px #000}
+@media (max-width:980px){.how-grid{grid-template-columns:minmax(0,1fr)}.demo{position:relative;top:0}}
+@media (max-width:520px){.demo-grid{gap:6px}.tile .fn{display:none}.demo{padding:12px}}
+
+/* ---------- features bento ---------- */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.cell{position:relative;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(16,24,44,.75),rgba(10,15,28,.75));padding:clamp(22px,2.6vw,34px);overflow:hidden;isolation:isolate}
+.cell h3{font:700 clamp(21px,2vw,26px)/1.2 var(--f-head);margin-bottom:10px}
+.cell p{color:var(--mute2);font-size:16px}
+.cell .tag{position:absolute;top:18px;right:18px;font:800 12px/1 var(--f-num);color:var(--mute);border:1px solid var(--line2);border-radius:7px;padding:6px 8px;letter-spacing:.06em;transition:all .3s}
+.cell:hover .tag{color:#021018;background:var(--cyan);border-color:var(--cyan)}
+.cell .grp{font:600 12px/1 var(--f-head);text-transform:uppercase;letter-spacing:.18em;color:var(--lila);display:block;margin-bottom:12px}
+.ticks{display:grid;gap:10px;margin-top:18px}
+.ticks li{position:relative;padding-left:26px;color:var(--mute2);font-size:15.5px;line-height:1.5}
+.ticks li::before{content:"";position:absolute;left:2px;top:.5em;width:12px;height:7px;border-left:2px solid var(--cyan);border-bottom:2px solid var(--cyan);transform:rotate(-45deg)}
+.ticks li strong{color:var(--ink);font-weight:600}
+.c-num{grid-column:span 5}
+.c-big{grid-column:span 7}
+.c-sel{grid-column:span 7}
+.c-opt{grid-column:span 5}
+.c-four{grid-column:span 4}
+.c-dock{grid-column:span 4}
+.c-exp{grid-column:span 4}
+.cell .pic{margin:22px calc(-1*clamp(22px,2.6vw,34px)) calc(-1*clamp(22px,2.6vw,34px));border-top:1px solid var(--line);overflow:hidden}
+.cell .pic img{width:100%;transition:transform 1.2s var(--ease)}
+.cell:hover .pic img{transform:scale(1.035)}
+.c-big .pic,.c-sel .pic{margin-left:0;border-left:1px solid var(--line);border-top-left-radius:14px}
+.c-opt .pic img{object-fit:cover;object-position:100% 0;aspect-ratio:16/10}
+.c-exp .pic img{object-fit:cover;object-position:100% 0;aspect-ratio:16/11}
+.c-four{background:radial-gradient(circle at 80% 0%,rgba(178,92,255,.22),transparent 60%),linear-gradient(180deg,#10182c,#0a0f1c)}
+.c-four{display:flex;flex-direction:column}
+.seq{display:grid;gap:6px;margin:20px 0 18px;font:800 clamp(18px,1.8vw,24px)/1 var(--f-num);letter-spacing:.04em}
+.seq li{padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--mute2)}
+.seq li.gap{border:0;background:none;padding:0 14px;color:var(--mute);font-size:.8em}
+.seq li.hot{color:#eaffff;border-color:rgba(34,228,255,.6);background:linear-gradient(90deg,rgba(34,228,255,.18),rgba(178,92,255,.12));box-shadow:0 0 22px -6px rgba(34,228,255,.6)}
+.c-four .note{margin-top:auto;font-size:14.5px;color:var(--mute)}
+.bigdigits .dim{color:var(--mute);font-size:.45em}
+.fname{display:block;margin-top:16px;font:500 14px/1.4 ui-monospace,Consolas,monospace;color:var(--mute);padding:12px 14px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid var(--line)}
+.fname b{color:var(--cyan)}
+.monitors{display:flex;gap:14px;margin-top:22px;align-items:flex-end;justify-content:center}
+.mon{position:relative;border:2px solid var(--line2);border-radius:8px;background:#060a14;padding:6px}
+.mon::after{content:"";position:absolute;left:50%;bottom:-14px;width:30%;height:12px;transform:translateX(-50%);border:2px solid var(--line2);border-top:0;border-radius:0 0 6px 6px}
+.mon img{border-radius:3px}
+.mon.m1{width:58%}.mon.m2{width:40%;border-color:rgba(34,228,255,.6);box-shadow:0 0 30px -6px rgba(34,228,255,.5)}
+.mini-list{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:22px;color:var(--mute2);font-size:15px}
+.mini-list li{display:flex;align-items:center;gap:10px}
+.mini-list li::before{content:"";width:8px;height:8px;border-radius:2px;background:linear-gradient(135deg,var(--cyan),var(--lila));flex:none}
+@media (max-width:1080px){.c-num{grid-column:span 12}.c-big,.c-sel,.c-opt{grid-column:span 12}.c-four,.c-dock,.c-exp{grid-column:span 6}.c-exp{grid-column:span 12}}
+@media (max-width:680px){.bento{gap:14px}.c-four,.c-dock,.c-exp{grid-column:span 12}.c-big .pic,.c-sel .pic{margin-left:calc(-1*clamp(22px,2.6vw,34px));border-left:0;border-radius:0}}
+
+/* ---------- designs gallery ---------- */
+.designs{--acc:#22e4ff;background:radial-gradient(1000px 600px at 70% 30%,color-mix(in srgb,var(--acc) 14%,transparent),transparent 70%);transition:background .6s}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.filters button{font:600 14px/1 var(--f-head);color:var(--mute2);background:transparent;border:1px solid var(--line2);padding:11px 16px;border-radius:10px;cursor:pointer;transition:all .2s}
+.filters button sup{font:700 11px/1 var(--f-head);margin-left:7px;color:var(--mute);vertical-align:.35em}
+.filters button:hover{color:var(--ink);border-color:var(--mute)}
+.filters button[aria-pressed="true"]{color:#021018;background:var(--acc);border-color:var(--acc)}
+.filters button[aria-pressed="true"] sup{color:#021018}
+.gal{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:22px;align-items:start}
+.preview{position:relative;border-radius:18px;padding:10px;background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 55%,transparent),rgba(255,255,255,.04) 55%);box-shadow:0 0 80px -20px color-mix(in srgb,var(--acc) 60%,transparent),0 40px 100px -40px #000;transition:box-shadow .6s,background .6s}
+.preview .shot{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:16/10;background:#0a0f1c}
+.preview .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease,transform .7s var(--ease)}
+.preview .shot img.out{opacity:0;transform:scale(1.03)}
+.pv-info{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 24px;align-items:end;padding:20px 10px 10px}
+.pv-info .idx{font:800 13px/1 var(--f-num);color:var(--acc);letter-spacing:.08em;transition:color .6s}
+.pv-info h3{font:700 clamp(26px,3vw,38px)/1.1 var(--f-disp);margin:8px 0 8px}
+.pv-info p{color:var(--mute2);max-width:520px}
+.pv-nav{display:flex;gap:8px}
+.pv-nav button{width:48px;height:48px;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:all .2s}
+.pv-nav button:hover{border-color:var(--acc);color:var(--acc)}
+.pv-nav button:active{transform:scale(.95)}
+.pv-nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.thumbs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-height:640px;overflow:auto;padding:2px 6px 2px 2px;scrollbar-width:thin;scrollbar-color:#2a3558 transparent}
+.thumb{all:unset;box-sizing:border-box;cursor:pointer;border-radius:12px;border:1px solid var(--line);background:rgba(16,24,44,.6);overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;display:block}
+.thumb img{aspect-ratio:16/10;object-fit:cover;width:100%;opacity:.82;transition:opacity .2s}
+.thumb span{display:flex;justify-content:space-between;gap:6px;padding:8px 10px 9px;font:600 13px/1.2 var(--f-head)}
+.thumb span i{font:700 10px/1.2 var(--f-num);font-style:normal;color:var(--mute)}
+.thumb:hover{transform:translateY(-2px);border-color:var(--line2)}
+.thumb:hover img{opacity:1}
+.thumb:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.thumb[aria-current="true"]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc),0 0 24px -6px var(--acc)}
+.thumb[aria-current="true"] img{opacity:1}
+.thumb[hidden]{display:none}
+.switch-note{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,56px);align-items:center;margin-top:clamp(60px,8vw,100px)}
+.switch-note h3{font:700 clamp(24px,2.6vw,34px)/1.15 var(--f-disp);margin-bottom:14px}
+.switch-note p{color:var(--mute2)}
+.switch-note .ticks{margin-top:18px}
+.tiltwrap{perspective:1200px;min-width:0}
+.tilt img{width:100%}
+.tilt{border-radius:14px;overflow:hidden;border:1px solid var(--line2);box-shadow:0 40px 90px -40px #000;transition:transform .4s var(--ease);transform-style:preserve-3d;will-change:transform}
+@media (max-width:980px){.gal,.switch-note{grid-template-columns:minmax(0,1fr)}.thumbs{grid-template-columns:repeat(4,1fr);max-height:none}}
+@media (max-width:640px){.thumbs{grid-template-columns:repeat(2,1fr)}.thumb span{font-size:12px}}
+
+/* ---------- concert ---------- */
+.concert{overflow:hidden;color:#fff2e0}
+.concert .bgimg{position:absolute;left:0;right:0;top:-10%;bottom:-10%;background:url("../assets/concert-stage.jpg") center top/cover no-repeat;opacity:.85}
+.concert::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent,rgba(8,4,10,.25) 30%,rgba(8,4,10,.5) 70%,transparent)}
+.concert .wrap{position:relative;z-index:2}
+.concert .kicker{color:var(--amber)}
+.concert .sec-no{color:#fff4dc;border-color:rgba(255,176,0,.7);background:linear-gradient(180deg,rgba(255,176,0,.2),rgba(255,46,136,.12));box-shadow:0 0 26px -6px rgba(255,176,0,.7),inset 0 0 12px rgba(255,176,0,.2)}
+.concert .sec-head p{color:#e8d6c8}
+.concert .grad{background-image:linear-gradient(95deg,var(--amber),var(--mag))}
+.c-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(30px,5vw,70px);align-items:center}
+.c-shots{position:relative;padding-bottom:22%}
+.c-shots .s1{position:relative;z-index:2;transform:rotate(-2deg)}
+.c-shots .s2{position:absolute;width:62%;right:-4%;bottom:0;z-index:3;transform:rotate(3deg)}
+.c-shots .tilt{border-color:rgba(255,176,0,.35)}
+.c-shots .s1 .tilt{box-shadow:0 0 90px -20px rgba(255,176,0,.55),0 40px 90px -30px #000}
+.c-shots .s2 .tilt{box-shadow:0 0 80px -20px rgba(255,46,136,.6),0 40px 90px -30px #000;border-color:rgba(255,46,136,.45)}
+.c-label{position:absolute;z-index:4;font:800 12px/1 var(--f-num);letter-spacing:.08em;padding:8px 10px;border-radius:7px;color:#1a0f00;background:var(--amber);box-shadow:0 0 22px rgba(255,176,0,.6)}
+.c-label.l1{left:-10px;top:-14px}
+.c-label.l2{right:-8px;top:-14px;background:var(--mag);color:#fff;box-shadow:0 0 22px rgba(255,46,136,.6)}
+.c-list{display:grid;gap:4px}
+.c-list li{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,176,0,.16)}
+.c-list li:last-child{border-bottom:0}
+.c-list .ix{font:800 13px/1 var(--f-num);color:var(--amber);padding-top:5px;letter-spacing:.06em}
+.c-list h3{font:700 18px/1.3 var(--f-head);margin-bottom:4px;color:#fff6ea}
+.c-list p{color:#d9c6b6;font-size:15.5px}
+.c-dark{margin-top:clamp(50px,6vw,80px);display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.c-dark article{border-radius:18px;padding:26px 28px;border:1px solid rgba(255,176,0,.22);background:linear-gradient(160deg,rgba(255,176,0,.10),rgba(0,0,0,.35))}
+.c-dark article:nth-child(2){border-color:rgba(255,46,136,.28);background:linear-gradient(160deg,rgba(255,46,136,.10),rgba(0,0,0,.35))}
+.c-dark h3{font:700 clamp(22px,2.2vw,28px)/1.15 var(--f-disp);margin-bottom:10px}
+.c-dark p{color:#e3d0c1}
+.c-dark article{display:flex;flex-direction:column}
+.c-dark .ix{font:800 13px/1 var(--f-num);color:var(--amber);letter-spacing:.06em;margin-bottom:14px}
+.c-dark article:nth-child(2) .ix{color:#ff7ab3}
+.c-dark .monitors{margin-top:auto;padding-top:22px}
+.c-dark .mon.m2{border-color:rgba(255,176,0,.7);box-shadow:0 0 30px -6px rgba(255,176,0,.6)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:22px}
+.chips li{display:flex;align-items:center;gap:8px;font-size:14.5px;color:#f1e2d4;border:1px solid rgba(255,46,136,.35);border-radius:10px;padding:6px 10px 6px 6px;background:rgba(0,0,0,.25)}
+.chips b{font:700 12px/1 var(--f-num);color:#fff;background:rgba(255,46,136,.35);border-radius:6px;padding:6px 7px;min-width:28px;text-align:center}
+@media (max-width:980px){.c-grid{grid-template-columns:minmax(0,1fr)}.c-dark{grid-template-columns:minmax(0,1fr)}.c-shots{margin:0 0 8px;padding-bottom:0;display:grid;gap:26px}.c-shots .s1,.c-shots .s2{position:relative;right:auto;bottom:auto;translate:none!important;transform:none}.c-shots .s2{width:82%;justify-self:end}.c-shots .s1{width:92%;margin-top:14px}}
+
+/* ---------- controls ---------- */
+.ctl-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+.panel{border-radius:22px;border:1px solid var(--line2);background:linear-gradient(180deg,#0d1427,#080c18);padding:clamp(22px,3vw,36px);position:relative;overflow:hidden}
+.panel-h{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.panel-h svg{width:30px;height:30px;stroke:var(--cyan);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.panel:nth-child(2) .panel-h svg{stroke:var(--lila)}
+.panel-h h3{font:700 24px/1.1 var(--f-head)}
+.kb{display:grid;gap:4px}
+.kb li{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;padding:9px 10px;border-radius:10px;transition:background .2s}
+.kb li:hover{background:rgba(34,228,255,.06)}
+.kb li .caps{display:flex;gap:5px;flex-wrap:wrap}
+.kb li .k{font-size:13px;height:32px;min-width:32px}
+.kb li span:last-child{color:var(--mute2);font-size:15.5px}
+.wasd{display:grid;grid-template-columns:repeat(3,auto);gap:5px;justify-content:start}
+.wasd .k:first-child{grid-column:2}
+.wasd .k:nth-child(2){grid-column:1;grid-row:2}.wasd .k:nth-child(3){grid-column:2;grid-row:2}.wasd .k:nth-child(4){grid-column:3;grid-row:2}
+.pad{width:100%;max-width:520px;margin:0 auto 10px;display:block;overflow:visible}
+.pad .body{fill:url(#padg);stroke:rgba(150,170,230,.35);stroke-width:2}
+.pad .b{fill:#0b1222;stroke:rgba(178,92,255,.6);stroke-width:2;transition:fill .2s,stroke .2s,filter .2s}
+.pad text{font:700 15px var(--f-num);fill:#cfd7f5;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.pad text.s{font-size:11px}
+.pad .hl .b,.pad g:hover .b{fill:rgba(178,92,255,.45);stroke:#e2c4ff;filter:drop-shadow(0 0 8px rgba(178,92,255,.9))}
+.pad g{cursor:default}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 14px}
+.legend li{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:9px;font-size:15px;color:var(--mute2);cursor:default;transition:background .2s}
+.legend li:hover,.legend li.hl{background:rgba(178,92,255,.1);color:var(--ink)}
+.legend b{min-width:44px;white-space:nowrap;font:700 12px/1 var(--f-num);color:var(--ink);border:1px solid rgba(178,92,255,.5);border-radius:6px;padding:6px 6px;text-align:center}
+.remap{margin-top:22px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,4vw,50px);align-items:center;border-radius:22px;border:1px solid var(--line);padding:clamp(22px,3vw,40px);background:linear-gradient(120deg,rgba(34,228,255,.06),rgba(178,92,255,.06))}
+.remap h3{font:700 clamp(24px,2.6vw,32px)/1.15 var(--f-disp);margin-bottom:12px}
+.remap p{color:var(--mute2)}
+.remap-shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.remap-shots figure{margin:0}
+.remap-shots figcaption{font:500 13px/1.3 var(--f-body);color:var(--mute);margin-top:8px}
+@media (max-width:980px){.ctl-grid,.remap{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.kb li{grid-template-columns:112px minmax(0,1fr);gap:12px;padding:8px 6px}.kb li span:last-child{font-size:15px}.pad text{font-size:22px}.pad text.s{font-size:17px}.legend{grid-template-columns:minmax(0,1fr)}.remap-shots{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- privacy ---------- */
+.priv-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(30px,5vw,70px);align-items:center}
+.priv-pts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.priv-pts h3{font:700 17px/1.3 var(--f-head);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.priv-pts h3 svg{width:22px;height:22px;stroke:var(--cyan);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.priv-pts p{color:var(--mute2);font-size:15.5px}
+.tree{font:500 15px/1.9 ui-monospace,Consolas,"Cascadia Mono",monospace;border-radius:18px;border:1px solid var(--line2);background:#070b16;padding:24px 26px;box-shadow:0 40px 90px -40px #000;overflow-x:auto}
+.tree .bar{display:flex;gap:7px;margin:-6px 0 16px}
+.tree .bar span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.14)}
+.tree div{white-space:nowrap}
+.tree .d{color:var(--ink);font-weight:700}
+.tree .o{color:var(--mute2)}
+.tree .o em{font-style:normal;color:#7ee2a8;font-size:12px;margin-left:10px;border:1px solid rgba(126,226,168,.4);border-radius:5px;padding:1px 6px}
+.tree .n{color:var(--cyan)}
+.tree .i1{padding-left:2ch}.tree .i2{padding-left:5ch}
+.tree .g{color:#5f6b8c}
+@media (max-width:980px){.priv-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.priv-pts{grid-template-columns:minmax(0,1fr)}.tree{font-size:13px;padding:18px}}
+
+/* ---------- download ---------- */
+.dl{padding-bottom:clamp(70px,9vw,120px)}
+.dl-card{position:relative;border-radius:28px;padding:clamp(26px,4.5vw,60px);overflow:hidden;border:1px solid rgba(34,228,255,.35);
+  background:radial-gradient(800px 400px at 0% 0%,rgba(34,228,255,.18),transparent 60%),radial-gradient(700px 400px at 100% 100%,rgba(178,92,255,.22),transparent 60%),#0a0f1c;
+  box-shadow:0 0 120px -40px rgba(34,228,255,.5)}
+.dl-top{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,3vw,40px);align-items:center}
+.dl-top img{width:clamp(84px,10vw,128px);height:auto;border-radius:26px;box-shadow:0 0 60px rgba(34,228,255,.4),0 0 90px rgba(178,92,255,.3)}
+.dl-top h3{font:700 clamp(24px,2.8vw,36px)/1.1 var(--f-disp);letter-spacing:-.02em;margin-bottom:10px}
+.dl-top p{color:var(--mute2);font-size:18px;max-width:620px}
+.dl-act{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;margin-top:34px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts div{padding:18px 16px}
+.facts div+div{border-left:1px solid var(--line)}
+.facts dt{font:600 11px/1 var(--f-head);text-transform:uppercase;letter-spacing:.16em;color:var(--mute)}
+.facts dd{margin:8px 0 0;font:700 17px/1.3 var(--f-head)}
+.dl-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,50px);margin-top:40px}
+.dl-cols h3{font:700 19px/1.2 var(--f-head);margin-bottom:16px}
+.inst{counter-reset:i;display:grid;gap:14px}
+.inst li{counter-increment:i;display:grid;grid-template-columns:40px 1fr;gap:12px;color:var(--mute2);font-size:15.5px}
+.inst li::before{content:counter(i,decimal-leading-zero);font:800 13px/1 var(--f-num);color:var(--cyan);border:1px solid rgba(34,228,255,.4);border-radius:8px;height:30px;display:grid;place-items:center}
+.inst strong{color:var(--ink)}
+.notice{border-radius:16px;border:1px solid rgba(255,176,0,.35);background:rgba(255,176,0,.06);padding:20px 22px}
+.notice h3{display:flex;align-items:center;gap:10px;color:#ffd27a}
+.notice h3 svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.notice p{color:#e2d6bf;font-size:15.5px}
+.notice p+p{margin-top:10px}
+.hash{margin-top:16px}
+.hash label{display:block;font:600 11px/1 var(--f-head);text-transform:uppercase;letter-spacing:.16em;color:var(--mute);margin-bottom:8px}
+.hash-row{display:flex;gap:8px;align-items:stretch}
+.hash code{flex:1;min-width:0;font:500 13px/1.5 ui-monospace,Consolas,monospace;color:var(--ink);background:#060a14;border:1px solid var(--line2);border-radius:10px;padding:10px 12px;word-break:break-all}
+.copy{font:600 13px/1 var(--f-head);color:var(--ink);background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:10px;padding:0 14px;cursor:pointer;transition:all .2s;min-width:96px}
+.copy:hover{border-color:var(--cyan);color:var(--cyan)}
+.copy.ok{color:#021018;background:var(--cyan);border-color:var(--cyan)}
+.hash small{display:block;margin-top:8px;color:var(--mute);font-size:13.5px}
+.hash small code{display:inline;padding:2px 6px;font-size:12.5px;word-break:normal}
+@media (max-width:860px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.facts div:nth-child(3){border-left:0}.facts div:nth-child(n+3){border-top:1px solid var(--line)}.dl-cols{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.dl-top{grid-template-columns:minmax(0,1fr)}.hash-row{flex-direction:column}.copy{padding:12px}.dl-act .btn{width:100%;justify-content:center}}
+
+/* ---------- FAQ ---------- */
+.faq-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,5vw,70px)}
+.faq-grid .sec-head{margin-bottom:0;position:sticky;top:100px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:56px 1fr 28px;gap:12px;align-items:center;padding:22px 4px;font:600 clamp(17px,1.6vw,19px)/1.35 var(--f-head);transition:color .2s}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--cyan)}
+.faq summary .q{font:800 12px/1 var(--f-num);color:var(--mute);letter-spacing:.06em}
+.faq details[open] summary .q{color:var(--cyan)}
+.faq summary .pl{width:28px;height:28px;border:1px solid var(--line2);border-radius:8px;position:relative;transition:transform .3s var(--ease),border-color .2s}
+.faq summary .pl::before,.faq summary .pl::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:currentColor;transform:translate(-50%,-50%)}
+.faq summary .pl::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s}
+.faq details[open] .pl{border-color:var(--cyan);color:var(--cyan)}
+.faq details[open] .pl::after{transform:translate(-50%,-50%) rotate(0)}
+.faq .a{padding:0 40px 24px 72px;color:var(--mute2)}
+.faq .a p+p{margin-top:10px}
+@media (max-width:980px){.faq-grid{grid-template-columns:minmax(0,1fr)}.faq-grid .sec-head{position:static}}
+@media (max-width:560px){.faq summary{grid-template-columns:40px 1fr 28px}.faq .a{padding:0 0 22px 52px}}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
+.foot{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between}
+.foot nav{display:flex;flex-wrap:wrap;gap:6px 20px}
+.foot nav a{color:var(--mute2);text-decoration:none;font-size:15px}
+.foot nav a:hover{color:var(--cyan);text-decoration:underline}
+.foot small{color:var(--mute);font-size:14px}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .js .rv,.js .sec-no{opacity:1!important;transform:none!important}
+  .js .drop{opacity:1;animation:none!important;transform:translate(-50%,-50%)}
+  .beam{display:none}
+}
+.lang{display:flex;flex:none;border:1px solid var(--line2);border-radius:11px;overflow:hidden;font:700 12.5px/1 var(--f-head);letter-spacing:.08em}
+.lang a{padding:10px 11px;color:var(--mute2);text-decoration:none;transition:background .2s,color .2s}
+.lang a:hover{color:var(--ink);background:rgba(255,255,255,.04)}
+.lang a[aria-current]{color:var(--ink);background:linear-gradient(180deg,rgba(34,228,255,.22),rgba(178,92,255,.16))}
+@media (max-width:440px){.lang a{padding:9px 8px}}
+@media (max-width:560px){.nav-in .btn-dl>span{display:none}.nav-in .btn-dl{padding:11px 12px;gap:0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="Numora – back to top"><img src="../assets/numora-icon.png" alt="" width="34" height="34"><span>Num<b>ora</b></span></a>
+    <nav aria-label="Main navigation">
+      <div class="nav-links" id="navlinks">
+        <a href="#funktionen">Features</a>
+        <a href="#designs">Designs</a>
+        <a href="#steuerung">Controls</a>
+        <a href="#konzert">Concerts</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </nav>
+    <div class="counter" aria-hidden="true">
+      <div>Section<b id="c-cur">000</b></div>
+      <div class="nx">Next<b id="c-next">001</b></div>
+    </div>
+    <a class="btn btn-dl" href="https://github.com/khoron-ip/numora/releases/download/v1.2.0/Numora-Setup-1.2.0.exe" download aria-label="Download for free">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+      <span>Free<span class="t-long"> download</span></span>
+    </a>
+    <div class="lang" role="group" aria-label="Sprache / Language"><a href="../" lang="de" hreflang="de">DE</a><a href="./" lang="en" hreflang="en" aria-current="page">EN</a></div>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="beam b1" aria-hidden="true"></div>
+  <div class="beam b2" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow rv"><i>v1.2.0</i> Free for Windows · offline</span>
+      <h1 class="rv d1">Bring order to your photos. <span class="l2 grad">Number by number.</span></h1>
+      <p class="lead rv d2">Select a photo, press <kbd class="k sym">+</kbd>, move on to the next. Numora puts lots of photos into your order using keyboard or game controller – and exports them as <strong>001.jpg, 002.jpg …</strong></p>
+      <div class="ticker rv d3" aria-hidden="true">
+        <div class="win"><div class="rows" id="ticker">
+          <div class="row"><span>DSC_4816.JPG</span><span class="ar">→</span><span class="to">007.jpg</span></div>
+          <div class="row"><span>DSC_4817.JPG</span><span class="ar">→</span><span class="to">008.jpg</span></div>
+          <div class="row"><span>DSC_4818.JPG</span><span class="ar">→</span><span class="to">009.jpg</span></div>
+          <div class="row"><span>DSC_4819.JPG</span><span class="ar">→</span><span class="to">010.jpg</span></div>
+        </div></div>
+      </div>
+      <div class="cta-row rv d4">
+        <a class="btn btn-dl" href="https://github.com/khoron-ip/numora/releases/download/v1.2.0/Numora-Setup-1.2.0.exe" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          <span class="lbl">Download for free<span class="meta">Windows · 82,6 MB · v1.2.0</span></span>
+        </a>
+        <a class="btn btn-ghost" href="#designs">See all 17 designs</a>
+      </div>
+      <p class="cta-note rv d4">No account, no cloud – your photos never leave your PC.</p>
+    </div>
+    <div class="stage rv d2">
+      <div class="frame" id="heroFrame">
+        <div class="frame-bar" aria-hidden="true"><span></span><span></span><span></span><em>Numora · Neon Grid</em></div>
+        <div class="shot">
+          <img src="../assets/screens/design-neon.jpg" width="1440" height="900" alt="Numora in the “Neon Grid” design: a grid of 18 thumbnails, six of them with large number badges from 001 to 006; at the top the counter shows Photos 18, Numbered 6, Next 007." fetchpriority="high">
+          <span class="drop d7" aria-hidden="true">007</span>
+          <span class="drop d8" aria-hidden="true">008</span>
+          <span class="drop d9" aria-hidden="true">009</span>
+        </div>
+        <div class="next-chip" aria-hidden="true">Next <b id="heroNext">007</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PERKS ================= -->
+<section class="perks" aria-label="Benefits at a glance">
+  <ul class="wrap">
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Offline &amp; private<small>No cloud, no account</small></span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zm0 0h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg><span>Free<small>No subscription, no catch</small></span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-3.9 3.2l-1.3 6.6A2.5 2.5 0 0 0 6 16.6L8 14h8l2 2.6a2.5 2.5 0 0 0 4.5-1.8l-1.3-6.6A4 4 0 0 0 17.3 5z"/></svg><span>Keyboard &amp; controller<small>Xbox, PlayStation &amp; more</small></span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2a10 10 0 0 0 0 20c1 0 1.7-.8 1.7-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2A5.5 5.5 0 0 0 22 10.8C22 6 17.5 2 12 2z"/></svg><span>17 Designs<small>More than just colours</small></span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><span>Originals untouched<small>Always exported as a copy</small></span></li>
+  </ul>
+</section>
+
+<!-- ================= HOW ================= -->
+<section class="sec" id="so-gehts" data-no="001">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">001</span>
+      <div><span class="kicker">How it works</span><h2>Four steps. <span class="grad">Zero renaming.</span></h2></div>
+      <p>You decide the order, Numora assigns the numbers. Your hands stay on keyboard or controller – no mouse needed.</p>
+    </header>
+    <div class="how-grid">
+      <ol class="steps" id="steps">
+        <li class="step on rv"><span class="n">01</span><div><h3>Load photos</h3><p>Drag &amp; drop, pick files or use “Open folder”. Numora sorts naturally by file name and shows everything in a grid of large thumbnails – size adjustable with a slider.</p></div></li>
+        <li class="step rv d1"><span class="n">02</span><div><h3>Navigate &amp; tap <span class="k sym">+</span></h3><p>Use <span class="k">W</span><span class="k">A</span><span class="k">S</span><span class="k">D</span> or the arrow keys to move through the grid, <span class="k sym">+</span> assigns the next number. <span class="k sym">−</span> undoes the last step – as often as you like.</p></div></li>
+        <li class="step rv d2"><span class="n">03</span><div><h3>Check &amp; swap</h3><p>Mark two photos with <span class="k">Enter</span>, swap their numbers with <span class="k">X</span>. <span class="k">K</span> opens the selection window showing your series in order.</p></div></li>
+        <li class="step rv d3"><span class="n">04</span><div><h3>Export</h3><p>Copies go into the subfolder “nummeriert” – or download everything as a ZIP. Your originals stay exactly as they are.</p></div></li>
+      </ol>
+
+      <div class="demo rv d2" id="demo" aria-label="Animated demo: photos being numbered with the keyboard">
+        <div class="demo-top"><span>Live demo</span><span>Next<b id="dNext">001</b></span></div>
+        <div class="demo-grid" id="dGrid">
+          <figure class="tile cur" style="margin:0"><img src="../assets/tiles/wueste.jpg" alt="Desert" width="320" height="212" loading="lazy"><span class="fn">DSC_4816.JPG</span></figure>
+          <figure class="tile" style="margin:0"><img src="../assets/tiles/berge.jpg" alt="Mountains at night" width="320" height="212" loading="lazy"><span class="fn">DSC_4817.JPG</span></figure>
+          <figure class="tile" style="margin:0"><img src="../assets/tiles/stadt.jpg" alt="Skyline" width="320" height="212" loading="lazy"><span class="fn">DSC_4818.JPG</span></figure>
+          <figure class="tile" style="margin:0"><img src="../assets/tiles/meer.jpg" alt="Sea at sunset" width="320" height="212" loading="lazy"><span class="fn">DSC_4820.JPG</span></figure>
+          <figure class="tile" style="margin:0"><img src="../assets/tiles/polar.jpg" alt="Northern lights" width="320" height="212" loading="lazy"><span class="fn">DSC_4821.JPG</span></figure>
+          <figure class="tile" style="margin:0"><img src="../assets/tiles/wald.jpg" alt="Forest" width="320" height="212" loading="lazy"><span class="fn">DSC_4822.JPG</span></figure>
+          <figure class="tile" style="margin:0"><img src="../assets/tiles/konzert.jpg" alt="Stage Light" width="320" height="212" loading="lazy"><span class="fn">DSC_4823.JPG</span></figure>
+          <figure class="tile" style="margin:0"><img src="../assets/tiles/abend.jpg" alt="Evening mountains" width="320" height="212" loading="lazy"><span class="fn">DSC_4827.JPG</span></figure>
+        </div>
+        <div class="keys" id="dKeys" aria-hidden="true">
+          <span class="k" data-k="W">W</span><span class="k" data-k="A">A</span><span class="k" data-k="S">S</span><span class="k" data-k="D">D</span>
+          <span class="k sym" data-k="+">+</span><span class="k sym" data-k="−">−</span><span class="k wide" data-k="Enter">Enter</span><span class="k" data-k="X">X</span><span class="k" data-k="K">K</span>
+        </div>
+        <p class="caption" id="dCap" aria-live="off"><b>Ready.</b> The selection is on the first photo.</p>
+        <div class="strip" id="dStrip"><span class="lab">Selection window</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="sec" id="funktionen" data-no="002" style="padding-top:clamp(40px,6vw,80px)">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">002</span>
+      <div><span class="kicker">Features</span><h2>Everything for the <span class="grad">perfect series.</span></h2></div>
+      <p>Wedding story, concert selects, photo book or social media series: Numora takes care of order and file names so you can focus on the pictures.</p>
+    </header>
+
+    <div class="bento">
+      <article class="cell c-num rv">
+        <span class="tag">A</span>
+        <span class="grp">Numbering &amp; ordering</span>
+        <h3>Photo by photo, in ascending order.</h3>
+        <p>You assign the numbers in exactly the order you have in mind.</p>
+        <ul class="ticks">
+          <li><strong>Load your way:</strong> drag &amp; drop, file picker or “Open folder” – with natural sorting by file name.</li>
+          <li><strong>Large thumbnails</strong> in the grid, size adjustable with a slider.</li>
+          <li><strong>W A S D or arrow keys</strong> to navigate, <strong>+</strong> assigns the next number.</li>
+          <li><strong>− undoes</strong> – a number or a swap, as often as you like.</li>
+          <li><strong>A/B swap:</strong> mark two photos with Enter, swap their numbers with X.</li>
+          <li><strong>No auto-jump:</strong> after numbering, the selection stays put – jumping ahead can be switched on if you like.</li>
+          <li><strong>Live preview</strong> of the new file name under every photo.</li>
+        </ul>
+        <span class="fname">DSC_4810.JPG → <b>Wedding_001.jpg</b></span>
+      </article>
+
+      <article class="cell c-big rv d1">
+        <span class="tag">B</span>
+        <span class="grp">Windows</span>
+        <h3>A large view that follows you.</h3>
+        <p>Space bar or double-click: a freely movable window, resizable from every edge and corner, maximisable – and it follows your selection live.</p>
+        <div class="pic"><img src="../assets/screens/fenster.jpg" width="1440" height="900" loading="lazy" alt="Numora with the large view of a sea photo open and the selection window with the numbered photos next to it."></div>
+      </article>
+
+      <article class="cell c-sel rv">
+        <span class="tag">C</span>
+        <span class="grp">Windows</span>
+        <h3>Selection window with <span class="k">K</span></h3>
+        <p>Shows only the numbered photos in their order – perfect control over the series. One click jumps to the photo; zoom with −/+, a slider or Ctrl + mouse wheel.</p>
+        <div class="pic"><img src="../assets/screens/auswahl.jpg" width="1440" height="900" loading="lazy" alt="Large selection window in the Stage Light design with six numbered photos in order."></div>
+      </article>
+
+      <article class="cell c-opt rv d1">
+        <span class="tag">D</span>
+        <span class="grp">Options</span>
+        <h3>Start number, prefix, digits.</h3>
+        <p>Start at any number, add a prefix like “Wedding_” and choose 1, 2, 3 or 4 digits – or let Numora decide automatically.</p>
+        <div class="pic"><img src="../assets/screens/einstellungen.jpg" width="1440" height="900" loading="lazy" alt="Settings menu in the Deep Sea design with start number, prefix, digits and export options."></div>
+      </article>
+
+      <article class="cell c-four rv">
+        <span class="tag">E</span>
+        <span class="grp">Automatic</span>
+        <h3>Four digits from photo 1000.</h3>
+        <p>With more than 999 photos, every file automatically gets four digits – so any software sorts your series correctly.</p>
+        <ol class="seq" aria-label="Example file names">
+          <li>0001.jpg</li><li class="gap" aria-hidden="true">⋮</li><li>0999.jpg</li><li class="hot">1000.jpg</li><li>1001.jpg</li>
+        </ol>
+        <p class="note">This also applies if you set the digits yourself: Numora always uses at least as many digits as needed.</p>
+      </article>
+
+      <article class="cell c-dock rv d1">
+        <span class="tag">F</span>
+        <span class="grp">Two monitors</span>
+        <h3>Detach &amp; move.</h3>
+        <p>The large view and the selection window can be detached as separate windows – for example onto a second monitor.</p>
+        <div class="monitors" aria-hidden="true">
+          <div class="mon m1"><img src="../assets/screens/design-neon.jpg" width="1440" height="900" alt="" loading="lazy"></div>
+          <div class="mon m2"><img src="../assets/tiles/meer.jpg" width="320" height="212" alt="" loading="lazy"></div>
+        </div>
+      </article>
+
+      <article class="cell c-exp rv d2">
+        <span class="tag">G</span>
+        <span class="grp">Export</span>
+        <h3>Folder or ZIP.</h3>
+        <p>“Save to folder” creates copies in the subfolder “nummeriert”; alternatively “Download as ZIP”. Unnumbered photos can be exported too if you like.</p>
+        <div class="pic"><img src="../assets/screens/export.jpg" width="1440" height="900" loading="lazy" alt="Export menu in the Backstage design with the options Save to folder and Download as ZIP."></div>
+      </article>
+    </div>
+
+    <ul class="mini-list rv">
+      <li>Settings, design and key bindings are remembered</li>
+      <li>Asks before closing if you haven’t exported yet</li>
+      <li>Built-in help with <span class="k">H</span> – always showing your current bindings</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= DESIGNS ================= -->
+<section class="sec designs" id="designs" data-no="003" style="padding-top:clamp(40px,5vw,72px)">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">003</span>
+      <div><span class="kicker">17 Designs</span><h2>One tool. <span class="grad">Seventeen worlds.</span></h2></div>
+      <p>Every design has its own layout, shapes, fonts and animations – not just different colours. Click through: this is the real Numora.</p>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filter designs">
+      <button type="button" data-f="alle" aria-pressed="true">All<sup>17</sup></button>
+      <button type="button" data-f="futur" aria-pressed="false">Futuristic<sup>7</sup></button>
+      <button type="button" data-f="ausgefallen" aria-pressed="false">Offbeat<sup>8</sup></button>
+      <button type="button" data-f="konzert" aria-pressed="false">Concert photography<sup>2</sup></button>
+    </div>
+
+    <div class="gal">
+      <div class="preview" id="pv">
+        <div class="shot"><img id="pvImg" src="../assets/screens/design-neon.jpg" width="1440" height="900" loading="lazy" alt="Numora in the Neon Grid design"></div>
+        <div class="pv-info">
+          <div aria-live="polite">
+            <span class="idx" id="pvIdx">001 / 017 · Futuristic</span>
+            <h3 id="pvName">Neon Grid</h3>
+            <p id="pvDesc">Cool neon lines on a dark grid – precise, calm, tidy.</p>
+          </div>
+          <div class="pv-nav">
+            <button type="button" id="pvPrev" aria-label="Previous design"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+            <button type="button" id="pvNext" aria-label="Next design"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumbs" id="thumbs" aria-label="Choose a design">
+        <button class="thumb" type="button" aria-current="true" data-cat="futur" data-acc="#22e4ff" data-src="neon" data-name="Neon Grid" data-desc="Cool neon lines on a dark grid – precise, calm, tidy."><img src="../assets/screens/design-neon.jpg" width="1440" height="900" alt="" loading="lazy"><span>Neon Grid<i>001</i></span></button>
+        <button class="thumb" type="button" data-cat="futur" data-acc="#f5e400" data-src="cyberpunk" data-name="Cyberpunk" data-desc="Yellow-and-black warning stripes, angular shapes and glaring accents."><img src="../assets/screens/design-cyberpunk.jpg" width="1440" height="900" alt="" loading="lazy"><span>Cyberpunk<i>002</i></span></button>
+        <button class="thumb" type="button" data-cat="futur" data-acc="#ff4fd8" data-src="synthwave" data-name="Synthwave" data-desc="Violet evening sky, retro sun and italic chrome digits."><img src="../assets/screens/design-synthwave.jpg" width="1440" height="900" alt="" loading="lazy"><span>Synthwave<i>003</i></span></button>
+        <button class="thumb" type="button" data-cat="futur" data-acc="#35ff6b" data-src="matrix" data-name="Matrix" data-desc="Green terminal digits in square brackets on deep black."><img src="../assets/screens/design-matrix.jpg" width="1440" height="900" alt="" loading="lazy"><span>Matrix<i>004</i></span></button>
+        <button class="thumb" type="button" data-cat="futur" data-acc="#7cc8ff" data-src="hologram" data-name="Hologram" data-desc="Bright and airy, with shimmering bluish glass panels."><img src="../assets/screens/design-hologram.jpg" width="1440" height="900" alt="" loading="lazy"><span>Hologram<i>005</i></span></button>
+        <button class="thumb" type="button" data-cat="futur" data-acc="#9fb2ff" data-src="weltraum" data-name="Space" data-desc="Round capsule numbers against the dark blue of space."><img src="../assets/screens/design-weltraum.jpg" width="1440" height="900" alt="" loading="lazy"><span>Space<i>006</i></span></button>
+        <button class="thumb" type="button" data-cat="futur" data-acc="#ffd23f" data-src="arcade" data-name="Retro-Arcade" data-desc="Pixel font and an arcade-cabinet look."><img src="../assets/screens/design-arcade.jpg" width="1440" height="900" alt="" loading="lazy"><span>Retro-Arcade<i>007</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#d6b27a" data-src="mittelalter" data-name="Medieval" data-desc="Parchment, wood and seals – with Roman numerals if you like."><img src="../assets/screens/design-mittelalter.jpg" width="1440" height="900" alt="" loading="lazy"><span>Medieval<i>008</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#c69bff" data-src="fantasy" data-name="Fantasy" data-desc="Ornate frames and magical violet."><img src="../assets/screens/design-fantasy.jpg" width="1440" height="900" alt="" loading="lazy"><span>Fantasy<i>009</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#ff3b4e" data-src="horror" data-name="Horror" data-desc="Blood-red digits on crooked instant photos."><img src="../assets/screens/design-horror.jpg" width="1440" height="900" alt="" loading="lazy"><span>Horror<i>010</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#e0aa4a" data-src="steampunk" data-name="Steampunk" data-desc="Brass, rivets and the charm of old machines."><img src="../assets/screens/design-steampunk.jpg" width="1440" height="900" alt="" loading="lazy"><span>Steampunk<i>011</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#e89a56" data-src="western" data-name="Wild West" data-desc="Every photo a wanted poster – “Wanted”, of course."><img src="../assets/screens/design-western.jpg" width="1440" height="900" alt="" loading="lazy"><span>Wild West<i>012</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#ffe100" data-src="comic" data-name="Comic" data-desc="Bright yellow, bold outlines and numbers in a comic burst."><img src="../assets/screens/design-comic.jpg" width="1440" height="900" alt="" loading="lazy"><span>Comic<i>013</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#2ef2d0" data-src="tiefsee" data-name="Deep Sea" data-desc="Glowing turquoise tiles, as if surfacing from dark water."><img src="../assets/screens/design-tiefsee.jpg" width="1440" height="900" alt="" loading="lazy"><span>Deep Sea<i>014</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#f0c75e" data-src="aegypten" data-name="Ancient Egypt" data-desc="Sandstone, gold and numbers in oval cartouches."><img src="../assets/screens/design-aegypten.jpg" width="1440" height="900" alt="" loading="lazy"><span>Ancient Egypt<i>015</i></span></button>
+        <button class="thumb" type="button" data-cat="konzert" data-acc="#ffb000" data-src="buehne" data-name="Stage Light" data-desc="Moving stage lights, a follow spot on the selected photo and setlist numbers."><img src="../assets/screens/design-buehne.jpg" width="1440" height="900" alt="" loading="lazy"><span>Stage Light<i>016</i></span></button>
+        <button class="thumb" type="button" data-cat="konzert" data-acc="#ff8a1f" data-src="backstage" data-name="Backstage" data-desc="Flight case, numbers on gaffer tape and barrier tape."><img src="../assets/screens/design-backstage.jpg" width="1440" height="900" alt="" loading="lazy"><span>Backstage<i>017</i></span></button>
+      </div>
+    </div>
+
+    <div class="switch-note">
+      <div class="rv">
+        <h3>Switch in a second.</h3>
+        <p>Open the palette menu or press <span class="k">T</span> – the new design is active instantly, and your numbers stay where they are.</p>
+        <ul class="ticks">
+          <li>Futuristic, offbeat or made for concert photography</li>
+          <li>Medieval with optional Roman numerals</li>
+          <li>Your favourite design is remembered</li>
+        </ul>
+      </div>
+      <div class="tiltwrap rv d1"><div class="tilt" data-tilt><img src="../assets/screens/designwahl.jpg" width="1440" height="900" loading="lazy" alt="Numora’s design menu with all designs in the groups Futuristic, Offbeat and Concert photography."></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONCERT ================= -->
+<section class="sec concert" id="konzert" data-no="004">
+  <div class="bgimg" aria-hidden="true" data-parallax="0.15"></div>
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">004</span>
+      <div><span class="kicker">For concert photographers</span><h2>After the show: <span class="grad">the setlist of your photos.</span></h2></div>
+      <p>Two designs made for long nights after the gig: dark, calm – and built so your photos are barely dimmed. Colours and light stay easy to judge.</p>
+    </header>
+    <div class="c-grid">
+      <div class="c-shots">
+        <div class="s1 tiltwrap rv" data-parallax="-0.04"><span class="c-label l1" aria-hidden="true">STAGE LIGHT</span><div class="tilt" data-tilt><img src="../assets/screens/design-buehne.jpg" width="1440" height="900" loading="lazy" alt="Numora in the Stage Light design: a dark stage with spotlights, numbered photos with setlist numbers."></div></div>
+        <div class="s2 tiltwrap rv d2" data-parallax="0.06"><span class="c-label l2" aria-hidden="true">BACKSTAGE</span><div class="tilt" data-tilt><img src="../assets/screens/design-backstage.jpg" width="1440" height="900" loading="lazy" alt="Numora in the Backstage design: flight-case look, numbers on gaffer tape, yellow-and-black barrier tape."></div></div>
+      </div>
+      <ol class="c-list">
+        <li class="rv"><span class="ix">01</span><div><h3>Dark interface, true colours</h3><p>The UI steps back and your photos are barely dimmed – so you can judge skin tones and stage light realistically.</p></div></li>
+        <li class="rv d1"><span class="ix">02</span><div><h3>Follow spot &amp; setlist numbers</h3><p>In Stage Light, a spot follows your selected photo and the numbers look like a setlist.</p></div></li>
+        <li class="rv d2"><span class="ix">03</span><div><h3>Flight case feeling</h3><p>Backstage numbers on gaffer tape, with barrier tape – familiar to anyone who works the photo pit.</p></div></li>
+      </ol>
+    </div>
+    <div class="c-dark">
+      <article class="rv">
+        <span class="ix">04</span>
+        <h3>Two monitors, one workflow</h3>
+        <p>The large view and selection window can be detached as separate windows: the grid on one screen, the large view following your selection live on the other.</p>
+        <div class="monitors" aria-hidden="true">
+          <div class="mon m1"><img src="../assets/screens/design-buehne.jpg" width="1440" height="900" alt="" loading="lazy"></div>
+          <div class="mon m2"><img src="../assets/tiles/konzert.jpg" width="320" height="212" alt="" loading="lazy"></div>
+        </div>
+      </article>
+      <article class="rv d1">
+        <span class="ix">05</span>
+        <h3>Controller in the dark</h3>
+        <p>Feel the buttons instead of searching: with a gamepad you sort relaxed, even in a darkened room. The key actions sit right under your thumbs.</p>
+        <ul class="chips">
+          <li><b>A</b>Number</li><li><b>B</b>Undo</li><li><b>X</b>Mark</li><li><b>Y</b>Swap</li><li><b>RB</b>Large view</li><li><b>RT</b>Selection window</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTROLS ================= -->
+<section class="sec" id="steuerung" data-no="005">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">005</span>
+      <div><span class="kicker">Controls</span><h2>Keyboard or gamepad. <span class="grad">Your choice.</span></h2></div>
+      <p>Numora can be used entirely with the keyboard and supports game controllers such as Xbox and PlayStation pads. Holding a direction repeats the movement.</p>
+    </header>
+
+    <div class="ctl-grid">
+      <div class="panel rv">
+        <div class="panel-h"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><h3>Keyboard</h3></div>
+        <ul class="kb">
+          <li><span class="caps"><span class="wasd"><span class="k">W</span><span class="k">A</span><span class="k">S</span><span class="k">D</span></span></span><span>Navigate (or arrow keys)</span></li>
+          <li><span class="caps"><span class="k sym">+</span></span><span>Assign next number</span></li>
+          <li><span class="caps"><span class="k sym">−</span></span><span>Undo last step</span></li>
+          <li><span class="caps"><span class="k">Enter</span></span><span>Mark photo (A/B)</span></li>
+          <li><span class="caps"><span class="k">X</span></span><span>Swap numbers of marked photos</span></li>
+          <li><span class="caps"><span class="k">Esc</span></span><span>Clear marks / close window</span></li>
+          <li><span class="caps"><span class="k">Space</span></span><span>Large view</span></li>
+          <li><span class="caps"><span class="k">K</span></span><span>Selection window</span></li>
+          <li><span class="caps"><span class="k">T</span></span><span>Switch design</span></li>
+          <li><span class="caps"><span class="k">H</span></span><span>Help with current bindings</span></li>
+        </ul>
+      </div>
+
+      <div class="panel rv d1">
+        <div class="panel-h"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-3.9 3.2l-1.3 6.6A2.5 2.5 0 0 0 6 16.6L8 14h8l2 2.6a2.5 2.5 0 0 0 4.5-1.8l-1.3-6.6A4 4 0 0 0 17.3 5z"/></svg><h3>Game-Controller</h3></div>
+        <svg class="pad" id="pad" viewBox="0 0 600 380" role="img" aria-label="Diagram of a game controller with labelled buttons">
+          <defs><linearGradient id="padg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#18213d"/><stop offset="1" stop-color="#0b1122"/></linearGradient></defs>
+          <g data-btn="lt"><path class="b" d="M128 62 Q130 30 165 28 L190 28 Q214 30 214 62 Z"/><text x="171" y="47" class="s">LT</text></g>
+          <g data-btn="rt"><path class="b" d="M386 62 Q386 30 410 28 L435 28 Q470 30 472 62 Z"/><text x="429" y="47" class="s">RT</text></g>
+          <g data-btn="lb"><rect class="b" x="112" y="66" width="122" height="22" rx="11"/><text x="173" y="77" class="s">LB</text></g>
+          <g data-btn="rb"><rect class="b" x="366" y="66" width="122" height="22" rx="11"/><text x="427" y="77" class="s">RB</text></g>
+          <path class="body" d="M160 92 C120 92 92 108 78 148 L36 282 C22 332 52 368 96 360 C126 354 146 324 170 292 L206 254 L394 254 L430 292 C454 324 474 354 504 360 C548 368 578 332 564 282 L522 148 C508 108 480 92 440 92 Z"/>
+          <g data-btn="ls"><circle class="b" cx="170" cy="160" r="36"/><circle cx="170" cy="160" r="22" fill="none" stroke="rgba(178,92,255,.35)" stroke-width="2"/><text x="170" y="160" class="s">LS</text></g>
+          <g data-btn="dpad"><path class="b" d="M218 208 h26 v24 h24 v26 h-24 v24 h-26 v-24 h-24 v-26 h24 Z"/><text x="231" y="245" class="s">✚</text></g>
+          <g data-btn="rs"><circle class="b" cx="370" cy="245" r="32"/><circle cx="370" cy="245" r="19" fill="none" stroke="rgba(178,92,255,.35)" stroke-width="2"/><text x="370" y="245" class="s">RS</text></g>
+          <g data-btn="view"><rect class="b" x="252" y="150" width="34" height="20" rx="10"/><text x="269" y="186" class="s" style="fill:#8a96b8">View</text></g>
+          <g data-btn="menu"><rect class="b" x="314" y="150" width="34" height="20" rx="10"/><text x="331" y="186" class="s" style="fill:#8a96b8">Menu</text></g>
+          <g data-btn="y"><circle class="b" cx="432" cy="124" r="19"/><text x="432" y="124">Y</text></g>
+          <g data-btn="x"><circle class="b" cx="396" cy="160" r="19"/><text x="396" y="160">X</text></g>
+          <g data-btn="b"><circle class="b" cx="468" cy="160" r="19"/><text x="468" y="160">B</text></g>
+          <g data-btn="a"><circle class="b" cx="432" cy="196" r="19"/><text x="432" y="196">A</text></g>
+        </svg>
+        <ul class="legend" id="legend">
+          <li data-btn="dpad ls"><b>✚ / LS</b>Navigate (hold = repeat)</li>
+          <li data-btn="a"><b>A</b>Assign number</li>
+          <li data-btn="b"><b>B</b>Undo</li>
+          <li data-btn="x"><b>X</b>Mark</li>
+          <li data-btn="y"><b>Y</b>Swap</li>
+          <li data-btn="rb"><b>RB</b>Large view</li>
+          <li data-btn="rt"><b>RT</b>Selection window</li>
+          <li data-btn="lb"><b>LB</b>Clear marks</li>
+          <li data-btn="view"><b>View</b>Switch design</li>
+          <li data-btn="menu"><b>Menu</b>Help</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="remap rv">
+      <div>
+        <span class="kicker">Fully customisable</span>
+        <h3>Your keys, your rules.</h3>
+        <p>Two keyboard keys and two controller buttons per action. Just click, press a key, done. Numora resolves duplicate bindings automatically – and remembers everything.</p>
+      </div>
+      <div class="remap-shots">
+        <figure class="tiltwrap"><div class="tilt" data-tilt><img src="../assets/screens/belegung.jpg" width="1440" height="900" loading="lazy" alt="Key binding dialog in the Cyberpunk design with two keyboard and two controller columns per action."></div><figcaption>Key bindings – 2 + 2 keys per action</figcaption></figure>
+        <figure class="tiltwrap"><div class="tilt" data-tilt><img src="../assets/screens/hilfe.jpg" width="1440" height="900" loading="lazy" alt="Help window in the Steampunk design with a quick guide and a table of the current keys."></div><figcaption>Help with <span class="k">H</span> – shows the current bindings</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRIVACY ================= -->
+<section class="sec" id="datenschutz" data-no="006">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">006</span>
+      <div><span class="kicker">Privacy &amp; security</span><h2>Your photos stay <span class="grad">with you.</span></h2></div>
+      <p>Numora needs neither internet nor an account. Everything happens locally on your computer – and it never touches your originals.</p>
+    </header>
+    <div class="priv-grid">
+      <div>
+        <div class="priv-pts">
+          <div class="rv d1"><h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 5.2-2.8M19 13a10 10 0 0 0-2.5-1.9M2 8.8a15 15 0 0 1 4.2-2.6M22 8.8A15 15 0 0 0 10.7 5M12 20h.01"/></svg>Fully offline</h3><p>Numora runs entirely on your PC. No internet connection needed.</p></div>
+          <div class="rv d2"><h3><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/><path d="M3 3l18 18"/></svg>No cloud, no account</h3><p>No sign-up, no upload. No photos leave your computer.</p></div>
+          <div class="rv d3"><h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>Originals unchanged</h3><p>Numora never renames or overwrites your original files.</p></div>
+          <div class="rv d4"><h3><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Exported as copies</h3><p>Numbered files are created as copies in the subfolder “nummeriert” or as a ZIP.</p></div>
+        </div>
+      </div>
+      <div class="tree rv d2" role="img" aria-label="Folder structure after export: the original files stay unchanged, the numbered copies are in the subfolder nummeriert.">
+        <div class="bar" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="d">📁 Wedding_Miller/</div>
+        <div class="o i1">DSC_4810.JPG<em>Original</em></div>
+        <div class="o i1">DSC_4811.JPG<em>Original</em></div>
+        <div class="o i1">DSC_4812.JPG<em>Original</em></div>
+        <div class="g i1">…</div>
+        <div class="d i1">📁 nummeriert/</div>
+        <div class="n i2">Wedding_001.jpg</div>
+        <div class="n i2">Wedding_002.jpg</div>
+        <div class="n i2">Wedding_003.jpg</div>
+        <div class="g i2">…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DOWNLOAD ================= -->
+<section class="sec dl" id="download" data-no="007" style="padding-top:clamp(20px,3vw,40px)">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">007</span>
+      <div><span class="kicker">Download</span><h2>Numora 1.2.0 <span class="grad">for Windows.</span></h2></div>
+    </header>
+    <div class="dl-card rv">
+      <div class="dl-top">
+        <img src="../assets/numora-icon.png" width="256" height="256" alt="Numora app icon" loading="lazy">
+        <div>
+          <h3>Free. No account. No cloud.</h3>
+          <p>Download, install, get started – installation works without administrator rights.</p>
+        </div>
+      </div>
+      <div class="dl-act">
+        <a class="btn btn-dl" href="https://github.com/khoron-ip/numora/releases/download/v1.2.0/Numora-Setup-1.2.0.exe" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          <span class="lbl">Numora-Setup-1.2.0.exe<span class="meta">Windows · 82,6 MB · v1.2.0</span></span>
+        </a>
+        <span style="color:var(--mute);font-size:15px">Start menu &amp; desktop shortcut · uninstalls normally</span>
+      </div>
+      <dl class="facts">
+        <div><dt>Version</dt><dd>1.2.0</dd></div>
+        <div><dt>Size</dt><dd>82,6 MB</dd></div>
+        <div><dt>System</dt><dd>Windows 10 / 11, 64-bit</dd></div>
+        <div><dt>Price</dt><dd>Free</dd></div>
+      </dl>
+      <div class="dl-cols">
+        <div>
+          <h3>Installation</h3>
+          <ol class="inst">
+            <li><span><strong>Download the installer</strong> – Numora-Setup-1.2.0.exe.</span></li>
+            <li><span><strong>Run the file.</strong> If Windows SmartScreen warns you: “More info” → “Run anyway”.</span></li>
+            <li><span><strong>Install</strong> – no administrator rights needed. Start menu and desktop shortcuts are created.</span></li>
+            <li><span><strong>Drag in your photos</strong> and get started with <span class="k sym">+</span>.</span></li>
+          </ol>
+        </div>
+        <div>
+          <div class="notice">
+            <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Honest note</h3>
+            <p>Numora is not (yet) digitally signed. Some antivirus programs (e.g. Avast) or Windows SmartScreen may therefore warn you on the first download.</p>
+            <p>This is a known false alarm for new, unsigned programs. If you want to be sure, compare the checksum:</p>
+          </div>
+          <div class="hash">
+            <label for="sha">SHA-256 of the installer</label>
+            <div class="hash-row">
+              <code id="sha">F508B4101E99DCFFF066B3BC64301B6DF89D40503D459F2EE002CF96739C9A9F</code>
+              <button class="copy" type="button" id="copyBtn">Copy</button>
+            </div>
+            <small>Check in PowerShell: <code>Get-FileHash .\Numora-Setup-1.2.0.exe</code></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= UNTERSTÜTZEN & FEEDBACK ================= -->
+<style>
+.sup-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(16px,2.4vw,28px);align-items:stretch}
+.sup-card{position:relative;border-radius:24px;padding:clamp(24px,3.4vw,40px);border:1px solid var(--line2);background:var(--glass);overflow:hidden}
+.sup-coffee{border-color:rgba(255,176,0,.38);background:radial-gradient(520px 260px at 0% 0%,rgba(255,176,0,.16),transparent 70%),radial-gradient(420px 240px at 100% 100%,rgba(255,46,136,.12),transparent 70%),var(--glass)}
+.sup-coffee h3,.sup-fb h3{font:800 clamp(24px,2.8vw,34px)/1.12 var(--f-disp);letter-spacing:-.01em;margin:14px 0 12px}
+.sup-coffee h3 em{font-style:normal;background:linear-gradient(90deg,var(--amber),var(--mag));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sup-card p{color:var(--mute2);margin:0 0 14px}
+.sup-top{display:flex;align-items:center;gap:18px}
+.sup-tag{font:700 12px var(--f-head);letter-spacing:3px;text-transform:uppercase;color:var(--amber)}
+.sup-fb .sup-tag{color:var(--cyan)}
+.cup{width:92px;height:92px;flex:none}
+.cup .steam path{fill:none;stroke:rgba(255,220,170,.75);stroke-width:3;stroke-linecap:round;animation:steam 2.6s ease-in-out infinite;opacity:0}
+.cup .steam path:nth-child(2){animation-delay:.6s}.cup .steam path:nth-child(3){animation-delay:1.2s}
+@keyframes steam{0%{opacity:0;transform:translateY(8px)}35%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
+.btn-coffee{background:linear-gradient(135deg,var(--amber),#ff7a3d 60%,var(--mag));color:#1a0b00;font-weight:700;box-shadow:0 0 0 1px rgba(255,176,0,.45),0 12px 40px -10px rgba(255,140,40,.7)}
+.btn-coffee:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(255,176,0,.7),0 16px 46px -10px rgba(255,140,40,.9)}
+.btn-coffee svg,.sup-fb .btn svg{width:20px;height:20px;flex:none}
+.sup-small{display:block;margin-top:12px;font-size:13.5px;color:var(--mute)}
+.sup-perks{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 22px;padding:0;list-style:none}
+.sup-perks li{font:600 13px var(--f-head);color:#ffe7c2;border:1px solid rgba(255,176,0,.3);background:rgba(255,176,0,.07);padding:6px 11px;border-radius:999px}
+.sup-fb{border-color:rgba(34,228,255,.3);background:radial-gradient(480px 240px at 100% 0%,rgba(34,228,255,.12),transparent 70%),var(--glass);display:flex;flex-direction:column}
+.sup-fb .acts{display:flex;flex-direction:column;gap:12px;margin-top:auto}
+.sup-fb .btn{justify-content:center;white-space:normal;text-align:center}
+.fb-chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 22px}
+.fb-chips span{font:600 13px var(--f-head);color:#d9f7ff;border:1px solid rgba(34,228,255,.28);background:rgba(34,228,255,.06);padding:6px 11px;border-radius:999px}
+@media (max-width:900px){.sup-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.sup-top{flex-direction:column;align-items:flex-start}.btn-coffee{width:100%;justify-content:center}}
+@media (prefers-reduced-motion:reduce){.cup .steam path{animation:none;opacity:.7}}
+</style>
+<section class="sec" id="unterstuetzen" data-no="008" style="padding-top:clamp(30px,4vw,60px)">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">008</span>
+      <div><span class="kicker">Support &amp; feedback</span><h2>Enjoying <span class="grad">Numora?</span></h2></div>
+      <p>Numora is free and will stay free. If it saves you time, I’d love a coffee – and even more your ideas.</p>
+    </header>
+    <div class="sup-grid">
+      <div class="sup-card sup-coffee rv d1">
+        <div class="sup-top">
+          <svg class="cup" viewBox="0 0 96 96" aria-hidden="true">
+            <g class="steam"><path d="M34 30c-4-6 4-9 0-16"/><path d="M48 30c-4-6 4-9 0-16"/><path d="M62 30c-4-6 4-9 0-16"/></g>
+            <path d="M20 40h52v18a22 22 0 0 1-22 22h-8a22 22 0 0 1-22-22z" fill="url(#cupG)"/>
+            <path d="M72 46h5a9 9 0 0 1 0 18h-6" fill="none" stroke="#ffb000" stroke-width="5"/>
+            <ellipse cx="46" cy="40" rx="26" ry="5" fill="#5a2e10"/>
+            <path d="M14 84h64" stroke="rgba(255,176,0,.5)" stroke-width="4" stroke-linecap="round"/>
+            <defs><linearGradient id="cupG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffcf5a"/><stop offset=".55" stop-color="#ff8a3d"/><stop offset="1" stop-color="#ff2e88"/></linearGradient></defs>
+          </svg>
+          <div>
+            <span class="sup-tag">Support</span>
+            <h3>Then why not buy me my <em>next coffee</em> ;)</h3>
+          </div>
+        </div>
+        <p>Numora is built in lots of after-work hours – and with even more coffee. A small tip helps new designs, features and updates happen.</p>
+        <ul class="sup-perks"><li>Any amount you like</li><li>Secure via PayPal</li><li>Numora stays free</li></ul>
+        <!-- PayPal-Link: PayPal.me oder PayPal-Spendenbutton – zeigt die E-Mail-Adresse nicht an -->
+        <a class="btn btn-coffee" href="https://paypal.me/GrunwaldPhotography" target="_blank" rel="noopener" id="coffeeBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg>
+          Buy me a coffee
+        </a>
+        <small class="sup-small">You’ll be redirected to PayPal. Thank you for supporting Numora! ☕</small>
+      </div>
+      <div class="sup-card sup-fb rv d2">
+        <span class="sup-tag">Feedback</span>
+        <h3>Ideas, praise or found a bug?</h3>
+        <p>Numora gets better with your feedback. Tell me what you like, what’s missing or which design you’d love to see next.</p>
+        <div class="fb-chips"><span>Design wish</span><span>Feature idea</span><span>Found a bug</span><span>Praise</span></div>
+        <div class="acts">
+          <a class="btn btn-dl" href="mailto:grunwald_photography@gmx.de?subject=Numora%20feedback%20(v1.2.0)&amp;body=Hi%20Stephan%2C%0D%0A%0D%0Amy%20feedback%20on%20Numora%3A%0D%0A%0D%0A%0D%0A---%0D%0ANumora%20version%3A%201.2.0%0D%0AWindows%20version%3A%20">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            Feedback by email
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/khoron-ip/numora/issues/new" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+            Report a bug on GitHub
+          </a>
+          <small class="sup-small" style="margin-top:2px">GitHub requires a free GitHub account – your report will be publicly visible there.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec" id="faq" data-no="009" style="padding-top:clamp(30px,4vw,60px)">
+  <div class="wrap faq-grid">
+    <header class="sec-head">
+      <span class="sec-no" aria-hidden="true">009</span>
+      <div><span class="kicker">FAQ</span><h2>Good <span class="grad">questions.</span></h2></div>
+    </header>
+    <div class="faq">
+      <details><summary><span class="q">Q01</span>How much does Numora cost?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Nothing. Numora is free – no subscription, no account.</p></div></details>
+      <details><summary><span class="q">Q02</span>Does Numora work offline?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Yes, completely. There’s no cloud and no account, and no photos leave your PC.</p></div></details>
+      <details><summary><span class="q">Q03</span>Are my originals changed?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>No. With “Save to folder”, Numora creates copies in the subfolder “nummeriert”. Alternatively you can download everything as a ZIP. Your originals stay unchanged.</p></div></details>
+      <details><summary><span class="q">Q04</span>Which controllers are supported?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Game controllers such as Xbox and PlayStation pads and others. Default layout: D-pad/stick navigate, A = number, B = undo, X = mark, Y = swap, RB = large view, RT = selection window, LB = clear marks, View = switch design, Menu = help.</p><p>You can rebind every action – with up to two controller buttons and two keyboard keys.</p></div></details>
+      <details><summary><span class="q">Q05</span>What happens with more than 999 photos?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>From photo 1000, Numora automatically switches to four digits (0001 … 1000) so any software sorts the order correctly. Alternatively you set the number of digits yourself: 1, 2, 3 or 4.</p></div></details>
+      <details><summary><span class="q">Q06</span>Is Numora available for Mac or Linux?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Currently Numora is only available for Windows (10/11, 64-bit).</p></div></details>
+      <details><summary><span class="q">Q07</span>Why does my antivirus warn me?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Numora is not (yet) digitally signed. Some antivirus programs (e.g. Avast) or Windows SmartScreen therefore warn on the first download – a known false alarm for new, unsigned programs. In SmartScreen, click “More info” → “Run anyway”.</p><p>To verify it, you’ll find the installer’s SHA-256 checksum in the <a href="#download">download section</a>.</p></div></details>
+      <details><summary><span class="q">Q08</span>How do I uninstall Numora?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>Through Windows as usual, like any other program.</p></div></details>
+      <details><summary><span class="q">Q09</span>Do I need administrator rights?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>No. Installation works without administrator rights and creates Start menu and desktop shortcuts.</p></div></details>
+      <details><summary><span class="q">Q10</span>How can I support Numora or give feedback?<span class="pl" aria-hidden="true"></span></summary><div class="a"><p>The easiest way is the <a href="#unterstuetzen">Support &amp; feedback</a>section: there you can buy me a coffee via PayPal or send me an email. You can also report bugs on GitHub.</p></div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="logo" href="#top"><img src="../assets/numora-icon.png" alt="" width="34" height="34" loading="lazy"><span>Num<b>ora</b></span></a>
+    <nav aria-label="Footer">
+      <a href="#funktionen">Features</a>
+      <a href="#designs">Designs</a>
+      <a href="#steuerung">Controls</a>
+      <a href="#download">Download</a>
+      <a href="#faq">FAQ</a>
+      <a href="#unterstuetzen">☕ Support</a>
+      <a href="../impressum.html" id="impressum">Legal notice</a>
+      <a href="../datenschutz.html">Privacy</a>
+    </nav>
+    <small>© 2026 Grunwald Photography</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function pad(n){return String(n).padStart(3,'0')}
+
+  /* mobile nav */
+  var nav=d.getElementById('nav'), burger=nav.querySelector('.burger');
+  burger.addEventListener('click',function(){var o=nav.classList.toggle('open');burger.setAttribute('aria-expanded',o);burger.setAttribute('aria-label',o?'Close menu':'Open menu')});
+  nav.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open');burger.setAttribute('aria-expanded','false')})});
+
+  /* reveal + self-numbering */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+  d.querySelectorAll('.rv,.sec-no').forEach(function(el){io.observe(el)});
+
+  var cCur=d.getElementById('c-cur'), cNext=d.getElementById('c-next');
+  var secs=[].slice.call(d.querySelectorAll('section[data-no]'));
+  var links={};d.querySelectorAll('.nav-links a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  var last=null;
+  function spin(el,to){
+    if(reduce){el.textContent=pad(to);return}
+    var from=parseInt(el.textContent,10)||0, t0=performance.now();
+    (function f(t){var p=Math.min(1,(t-t0)/450);el.textContent=pad(Math.round(from+(to-from)*p));if(p<1)requestAnimationFrame(f)})(t0);
+  }
+  function onScroll(){
+    var y=window.innerHeight*.4, cur=null;
+    secs.forEach(function(s){if(s.getBoundingClientRect().top<y)cur=s});
+    var id=cur?cur.id:null;
+    if(id!==last){
+      last=id;var n=cur?parseInt(cur.dataset.no,10):0;
+      spin(cCur,n);if(n>=secs.length){cNext.textContent='—'}else{spin(cNext,n+1)}
+      Object.keys(links).forEach(function(k){links[k].classList.toggle('on',k===id)});
+    }
+  }
+
+  /* parallax */
+  var px=[].slice.call(d.querySelectorAll('[data-parallax]'));
+  function parallax(){
+    if(reduce)return;
+    px.forEach(function(el){var r=el.parentElement.getBoundingClientRect();var off=(r.top+r.height/2-window.innerHeight/2)*parseFloat(el.dataset.parallax);el.style.translate='0 '+off.toFixed(1)+'px'});
+  }
+  var ticking=false;
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(function(){onScroll();parallax();ticking=false})}},{passive:true});
+  onScroll();parallax();
+
+  /* hero: mouse-following light + frame tilt */
+  var hero=d.querySelector('.hero'), frame=d.getElementById('heroFrame');
+  if(!reduce && window.matchMedia('(pointer:fine)').matches){
+    hero.addEventListener('pointermove',function(e){
+      var r=hero.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+      hero.style.setProperty('--mx',(x*100).toFixed(1)+'%');hero.style.setProperty('--my',(y*100).toFixed(1)+'%');
+      hero.style.setProperty('--rot',((x-.5)*10).toFixed(2)+'deg');
+      if(window.innerWidth>980)frame.style.transform='rotateY('+(-11+(x-.5)*10).toFixed(2)+'deg) rotateX('+(6-(y-.5)*8).toFixed(2)+'deg) rotateZ(.5deg)';
+    });
+    hero.addEventListener('pointerleave',function(){frame.style.transform=''});
+  }
+
+  /* hero ticker + next counter in sync with falling badges */
+  var tk=d.getElementById('ticker'), hn=d.getElementById('heroNext'), ti=0;
+  if(!reduce){
+    var seq=[7,8,9,10];
+    setInterval(function(){ti=(ti+1)%4;tk.style.transform='translateY('+(-22*ti)+'px)';hn.textContent=pad(seq[ti])},1900);
+  }
+
+  /* hover tilt on screenshot cards */
+  if(!reduce && window.matchMedia('(pointer:fine)').matches){
+    d.querySelectorAll('[data-tilt]').forEach(function(el){
+      el.addEventListener('pointermove',function(e){var r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform='rotateY('+(x*10).toFixed(2)+'deg) rotateX('+(-y*8).toFixed(2)+'deg) scale(1.02)'});
+      el.addEventListener('pointerleave',function(){el.style.transform=''});
+    });
+  }
+
+  /* ---------- live demo ---------- */
+  var grid=d.getElementById('dGrid'), tiles=[].slice.call(grid.children), keys=d.getElementById('dKeys'), cap=d.getElementById('dCap'), strip=d.getElementById('dStrip'), dNext=d.getElementById('dNext');
+  var stepsEl=[].slice.call(d.querySelectorAll('#steps .step'));
+  var st, hist;
+  function reset(){st={cur:0,num:{},next:1,a:null,b:null};hist=[]}
+  function render(){
+    tiles.forEach(function(t,i){
+      t.classList.toggle('cur',i===st.cur);t.classList.toggle('ma',i===st.a);t.classList.toggle('mb',i===st.b);
+      var n=t.querySelector('.num'), m=t.querySelector('.mk'), fn=t.querySelector('.fn');
+      var v=st.num[i];
+      if(v){ if(!n||n.dataset.v!=v){if(n)n.remove();n=d.createElement('span');n.className='num';n.dataset.v=v;n.innerHTML='<span>'+pad(v)+'</span>';t.insertBefore(n,fn)} }
+      else if(n)n.remove();
+      var mk=i===st.a?'A':i===st.b?'B':null;
+      if(mk){if(!m){m=d.createElement('span');m.className='mk';t.appendChild(m)}m.textContent='◆ '+mk}else if(m)m.remove();
+      if(!fn.dataset.o)fn.dataset.o=fn.textContent;
+      fn.innerHTML=v?fn.dataset.o.replace(/^DSC_/,'')+' → <b>'+pad(v)+'.jpg</b>':fn.dataset.o;
+    });
+    dNext.textContent=pad(st.next);
+    var order=Object.keys(st.num).map(Number).sort(function(x,y){return st.num[x]-st.num[y]});
+    strip.querySelectorAll('figure').forEach(function(f){f.remove()});
+    order.forEach(function(i){var f=d.createElement('figure');f.innerHTML='<img src="'+tiles[i].querySelector('img').getAttribute('src')+'" alt=""><figcaption>'+pad(st.num[i])+'</figcaption>';strip.appendChild(f)});
+  }
+  function press(k){var el=keys.querySelector('[data-k="'+k+'"]');if(!el)return;el.classList.add('down');setTimeout(function(){el.classList.remove('down')},260)}
+  function move(dx,dy){var c=st.cur%4+dx,r=Math.floor(st.cur/4)+dy;if(c<0||c>3||r<0||r>1)return;st.cur=r*4+c}
+  function setStep(i){stepsEl.forEach(function(s,j){s.classList.toggle('on',j===i)})}
+  var script=[
+    ['+','<b>+</b> assigns number 001 to the selected photo.',1],
+    ['D','<b>D</b> moves the selection to the right.',1],['D','<b>D</b> once more.',1],
+    ['+','<b>+</b> – number 002. The selection stays put.',1],
+    ['S','<b>S</b> – one row down.',1],['+','<b>+</b> – number 003.',1],
+    ['A','<b>A</b> – to the left.',1],['+','<b>+</b> – number 004.',1],
+    ['−','Changed your mind? <b>−</b> undoes the last step.',1],
+    ['W','<b>W</b> – up.',1],['+','<b>+</b> – number 004 for this photo.',1],
+    ['Enter','<b>Enter</b> marks photo A.',2],['D','<b>D</b> – on to the next photo.',2],
+    ['Enter','<b>Enter</b> marks photo B.',2],['X','<b>X</b> swaps the numbers of A and B.',2],
+    ['K','<b>K</b> – the selection window shows the series in order.',2],
+    [null,'<b>Done.</b> Now just export – as copies, the originals stay untouched.',3]
+  ];
+  function act(k){
+    if(k==='+'){if(st.num[st.cur])return;hist.push({t:'n',i:st.cur});st.num[st.cur]=st.next++}
+    else if(k==='−'){var h=hist.pop();if(h&&h.t==='n'){delete st.num[h.i];st.next--}else if(h&&h.t==='s'){var t=st.num[h.a];st.num[h.a]=st.num[h.b];st.num[h.b]=t}}
+    else if(k==='W')move(0,-1);else if(k==='S')move(0,1);else if(k==='A')move(-1,0);else if(k==='D')move(1,0);
+    else if(k==='Enter'){if(st.a===null)st.a=st.cur;else st.b=st.cur}
+    else if(k==='X'){if(st.a!==null&&st.b!==null){var t2=st.num[st.a];st.num[st.a]=st.num[st.b];st.num[st.b]=t2;hist.push({t:'s',a:st.a,b:st.b});st.a=st.b=null}}
+    else if(k==='K'){strip.classList.add('pulse');setTimeout(function(){strip.classList.remove('pulse')},1600)}
+  }
+  reset();
+  if(reduce){
+    script.forEach(function(s){if(s[0])act(s[0])});render();cap.innerHTML=script[script.length-1][1];setStep(3);
+  } else {
+    render();
+    var si=0, running=false, timer=null;
+    function tick(){
+      if(si>=script.length){reset();render();setStep(0);cap.innerHTML='<b>Ready.</b> The selection is on the first photo.';si=0;timer=setTimeout(tick,1600);return}
+      var s=script[si++];if(s[0]){press(s[0]);act(s[0])}render();cap.innerHTML=s[1];setStep(s[2]);
+      timer=setTimeout(tick,si>=script.length?3600:(s[0]==='K'?2000:1150));
+    }
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!running){running=true;timer=setTimeout(tick,700)}else if(!e.isIntersecting&&running){running=false;clearTimeout(timer)}})},{threshold:.3}).observe(d.getElementById('demo'));
+  }
+
+  /* ---------- designs gallery ---------- */
+  var sec=d.getElementById('designs'), pv=d.getElementById('pv'), pvImg=d.getElementById('pvImg'), pvIdx=d.getElementById('pvIdx'), pvName=d.getElementById('pvName'), pvDesc=d.getElementById('pvDesc');
+  var thumbs=[].slice.call(d.querySelectorAll('#thumbs .thumb')), filt=[].slice.call(d.querySelectorAll('.filters button'));
+  var catName={futur:'Futuristic',ausgefallen:'Offbeat',konzert:'Concert photography'};
+  var curI=0, swapT;
+  function show(i){
+    var t=thumbs[i];if(!t)return;curI=i;
+    thumbs.forEach(function(x){x.setAttribute('aria-current',x===t?'true':'false')});
+    sec.style.setProperty('--acc',t.dataset.acc);
+    pvIdx.textContent=pad(i+1)+' / 017 · '+catName[t.dataset.cat];
+    pvName.textContent=t.dataset.name;pvDesc.textContent=t.dataset.desc;
+    var src='../assets/screens/design-'+t.dataset.src+'.jpg';
+    if(pvImg.getAttribute('src')===src)return;
+    clearTimeout(swapT);
+    if(reduce){pvImg.src=src;pvImg.alt='Numora in the design '+t.dataset.name;return}
+    pvImg.classList.add('out');
+    swapT=setTimeout(function(){pvImg.src=src;pvImg.alt='Numora in the design '+t.dataset.name;var done=function(){pvImg.classList.remove('out')};if(pvImg.complete)done();else pvImg.onload=done},200);
+  }
+  thumbs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(i)});
+    t.addEventListener('focus',function(){show(i)});
+    t.addEventListener('keydown',function(e){
+      var vis=thumbs.filter(function(x){return !x.hidden}), p=vis.indexOf(t), n=null;
+      if(e.key==='ArrowRight'||e.key==='ArrowDown')n=vis[(p+1)%vis.length];
+      if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=vis[(p-1+vis.length)%vis.length];
+      if(n){e.preventDefault();n.focus()}
+    });
+  });
+  var hoverT;
+  if(window.matchMedia('(pointer:fine)').matches){thumbs.forEach(function(t,i){t.addEventListener('pointerenter',function(){clearTimeout(hoverT);hoverT=setTimeout(function(){show(i)},120)})})}
+  function step(dir){var vis=thumbs.filter(function(x){return !x.hidden});var p=vis.indexOf(thumbs[curI]);var n=vis[(p+dir+vis.length)%vis.length];show(thumbs.indexOf(n))}
+  d.getElementById('pvPrev').addEventListener('click',function(){step(-1)});
+  d.getElementById('pvNext').addEventListener('click',function(){step(1)});
+  filt.forEach(function(b){b.addEventListener('click',function(){
+    filt.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    var f=b.dataset.f, first=-1;
+    thumbs.forEach(function(t,i){var on=f==='alle'||t.dataset.cat===f;t.hidden=!on;if(on&&first<0)first=i});
+    if(thumbs[curI].hidden)show(first);
+  })});
+
+  /* ---------- gamepad legend highlight ---------- */
+  var padSvg=d.getElementById('pad');
+  function hl(ids,on){ids.split(' ').forEach(function(id){var g=padSvg.querySelector('[data-btn="'+id+'"]');if(g)g.classList.toggle('hl',on)})}
+  d.querySelectorAll('#legend li').forEach(function(li){
+    li.addEventListener('pointerenter',function(){hl(li.dataset.btn,true)});
+    li.addEventListener('pointerleave',function(){hl(li.dataset.btn,false)});
+  });
+  padSvg.querySelectorAll('g[data-btn]').forEach(function(g){
+    var id=g.dataset.btn, li=[].slice.call(d.querySelectorAll('#legend li')).filter(function(l){return l.dataset.btn.split(' ').indexOf(id)>-1})[0];
+    if(!li)return;
+    g.addEventListener('pointerenter',function(){li.classList.add('hl')});
+    g.addEventListener('pointerleave',function(){li.classList.remove('hl')});
+  });
+
+  /* ---------- copy hash ---------- */
+  var cb=d.getElementById('copyBtn');
+  cb.addEventListener('click',function(){
+    var txt=d.getElementById('sha').textContent.trim();
+    function ok(){cb.textContent='Copied ✓';cb.classList.add('ok');setTimeout(function(){cb.textContent='Copy';cb.classList.remove('ok')},1800)}
+    if(navigator.clipboard)navigator.clipboard.writeText(txt).then(ok,function(){});
+    else{var r=d.createRange();r.selectNodeContents(d.getElementById('sha'));var s=getSelection();s.removeAllRanges();s.addRange(r);try{d.execCommand('copy');ok()}catch(e){}}
+  });
+})();
+</script>
+</body>
+</html>

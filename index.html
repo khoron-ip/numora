@@ -16,6 +16,9 @@
 <meta property="og:image:width" content="1440">
 <meta property="og:image:height" content="900">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="de" href="https://khoron-ip.github.io/numora/">
+<link rel="alternate" hreflang="en" href="https://khoron-ip.github.io/numora/en/">
+<link rel="alternate" hreflang="x-default" href="https://khoron-ip.github.io/numora/">
 <link href="assets/fonts/fonts.css" rel="stylesheet">
 <script>document.documentElement.classList.add('js')</script>
 <style>
@@ -477,6 +480,12 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
   .js .drop{opacity:1;animation:none!important;transform:translate(-50%,-50%)}
   .beam{display:none}
 }
+.lang{display:flex;flex:none;border:1px solid var(--line2);border-radius:11px;overflow:hidden;font:700 12.5px/1 var(--f-head);letter-spacing:.08em}
+.lang a{padding:10px 11px;color:var(--mute2);text-decoration:none;transition:background .2s,color .2s}
+.lang a:hover{color:var(--ink);background:rgba(255,255,255,.04)}
+.lang a[aria-current]{color:var(--ink);background:linear-gradient(180deg,rgba(34,228,255,.22),rgba(178,92,255,.16))}
+@media (max-width:440px){.lang a{padding:9px 8px}}
+@media (max-width:560px){.nav-in .btn-dl>span{display:none}.nav-in .btn-dl{padding:11px 12px;gap:0}}
 </style>
 </head>
 <body>
@@ -498,10 +507,11 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
       <div>Abschnitt<b id="c-cur">000</b></div>
       <div class="nx">Nächste<b id="c-next">001</b></div>
     </div>
-    <a class="btn btn-dl" href="https://github.com/khoron-ip/numora/releases/download/v1.2.0/Numora-Setup-1.2.0.exe" download>
+    <a class="btn btn-dl" href="https://github.com/khoron-ip/numora/releases/download/v1.2.0/Numora-Setup-1.2.0.exe" download aria-label="Kostenlos herunterladen">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
       <span>Kostenlos<span class="t-long"> laden</span></span>
     </a>
+    <div class="lang" role="group" aria-label="Sprache / Language"><a href="./" lang="de" hreflang="de" aria-current="page">DE</a><a href="en/" lang="en" hreflang="en">EN</a></div>
     <button class="burger" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
   </div>
 </header>
