@@ -309,8 +309,21 @@ section{position:relative}
 .tiltwrap{perspective:1200px;min-width:0}
 .tilt img{width:100%}
 .tilt{border-radius:14px;overflow:hidden;border:1px solid var(--line2);box-shadow:0 40px 90px -40px #000;transition:transform .4s var(--ease);transform-style:preserve-3d;will-change:transform}
+.thumbs{grid-template-columns:minmax(0,1fr);max-height:none;overflow:visible}
+.more-designs{border:1px dashed var(--line2);border-radius:12px;padding:16px 16px 14px;background:linear-gradient(160deg,rgba(34,228,255,.06),rgba(178,92,255,.06))}
+.more-n{display:block;font:800 30px/1 var(--f-num);background:linear-gradient(90deg,var(--cyan),var(--lila));-webkit-background-clip:text;background-clip:text;color:transparent}
+.more-t{margin:6px 0 10px;font:600 14px/1.35 var(--f-head);color:var(--ink)}
+.more-list{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;padding:0;list-style:none}
+.more-list li{font:600 11.5px/1 var(--f-head);color:var(--mute2);border:1px solid var(--line);border-radius:999px;padding:5px 8px}
+.more-link{font:600 13px var(--f-head);color:var(--cyan);text-decoration:none}
+.more-link:hover{text-decoration:underline}
+.gal .thumb img{aspect-ratio:16/7}
+.more-designs{margin-top:18px;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"n t" "n l" "n a";column-gap:20px;align-items:center}
+.more-n{grid-area:n;font-size:46px}.more-t{grid-area:t;margin:0 0 8px}.more-list{grid-area:l;margin-bottom:10px}.more-link{grid-area:a}
+@media (max-width:980px){.thumbs{grid-template-columns:repeat(3,minmax(0,1fr))}.gal .thumb img{aspect-ratio:16/10}}
+@media (max-width:640px){.more-designs{display:block}.more-n{font-size:30px}.more-t{margin:6px 0 10px}}
 @media (max-width:980px){.gal,.switch-note{grid-template-columns:minmax(0,1fr)}.thumbs{grid-template-columns:repeat(4,1fr);max-height:none}}
-@media (max-width:640px){.thumbs{grid-template-columns:repeat(2,1fr)}.thumb span{font-size:12px}}
+@media (max-width:640px){.thumbs{grid-template-columns:repeat(3,minmax(0,1fr))}.thumb span{font-size:11.5px;padding:7px 7px 8px}.thumb span i{display:none}}
 
 /* ---------- concert ---------- */
 .concert{overflow:hidden;color:#fff2e0}
@@ -704,24 +717,18 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
     <header class="sec-head">
       <span class="sec-no" aria-hidden="true">003</span>
       <div><span class="kicker">17 Designs</span><h2>One tool. <span class="grad">Seventeen worlds.</span></h2></div>
-      <p>Every design has its own layout, shapes, fonts and animations – not just different colours. Click through: this is the real Numora.</p>
+      <p>Every design has its own layout, shapes, fonts and animations – not just different colours. Here are three examples to click through – 14 more are waiting in the app.</p>
     </header>
 
-    <div class="filters" role="group" aria-label="Filter designs">
-      <button type="button" data-f="alle" aria-pressed="true">All<sup>17</sup></button>
-      <button type="button" data-f="futur" aria-pressed="false">Futuristic<sup>7</sup></button>
-      <button type="button" data-f="ausgefallen" aria-pressed="false">Offbeat<sup>8</sup></button>
-      <button type="button" data-f="konzert" aria-pressed="false">Concert photography<sup>2</sup></button>
-    </div>
 
     <div class="gal">
       <div class="preview" id="pv">
-        <div class="shot"><img id="pvImg" src="../assets/screens/design-neon.jpg" width="1440" height="900" loading="lazy" alt="Numora in the Neon Grid design"></div>
+        <div class="shot"><img id="pvImg" src="../assets/screens/design-horror.jpg" width="1440" height="900" loading="lazy" alt="Numora in the Horror design"></div>
         <div class="pv-info">
           <div aria-live="polite">
-            <span class="idx" id="pvIdx">001 / 017 · Futuristic</span>
-            <h3 id="pvName">Neon Grid</h3>
-            <p id="pvDesc">Cool neon lines on a dark grid – precise, calm, tidy.</p>
+            <span class="idx" id="pvIdx">001 / 003 · Offbeat</span>
+            <h3 id="pvName">Horror</h3>
+            <p id="pvDesc">Blood-red digits on crooked instant photos.</p>
           </div>
           <div class="pv-nav">
             <button type="button" id="pvPrev" aria-label="Previous design"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
@@ -731,27 +738,21 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
       </div>
 
       <div class="thumbs" id="thumbs" aria-label="Choose a design">
-        <button class="thumb" type="button" aria-current="true" data-cat="futur" data-acc="#22e4ff" data-src="neon" data-name="Neon Grid" data-desc="Cool neon lines on a dark grid – precise, calm, tidy."><img src="../assets/screens/design-neon.jpg" width="1440" height="900" alt="" loading="lazy"><span>Neon Grid<i>001</i></span></button>
-        <button class="thumb" type="button" data-cat="futur" data-acc="#f5e400" data-src="cyberpunk" data-name="Cyberpunk" data-desc="Yellow-and-black warning stripes, angular shapes and glaring accents."><img src="../assets/screens/design-cyberpunk.jpg" width="1440" height="900" alt="" loading="lazy"><span>Cyberpunk<i>002</i></span></button>
-        <button class="thumb" type="button" data-cat="futur" data-acc="#ff4fd8" data-src="synthwave" data-name="Synthwave" data-desc="Violet evening sky, retro sun and italic chrome digits."><img src="../assets/screens/design-synthwave.jpg" width="1440" height="900" alt="" loading="lazy"><span>Synthwave<i>003</i></span></button>
-        <button class="thumb" type="button" data-cat="futur" data-acc="#35ff6b" data-src="matrix" data-name="Matrix" data-desc="Green terminal digits in square brackets on deep black."><img src="../assets/screens/design-matrix.jpg" width="1440" height="900" alt="" loading="lazy"><span>Matrix<i>004</i></span></button>
-        <button class="thumb" type="button" data-cat="futur" data-acc="#7cc8ff" data-src="hologram" data-name="Hologram" data-desc="Bright and airy, with shimmering bluish glass panels."><img src="../assets/screens/design-hologram.jpg" width="1440" height="900" alt="" loading="lazy"><span>Hologram<i>005</i></span></button>
-        <button class="thumb" type="button" data-cat="futur" data-acc="#9fb2ff" data-src="weltraum" data-name="Space" data-desc="Round capsule numbers against the dark blue of space."><img src="../assets/screens/design-weltraum.jpg" width="1440" height="900" alt="" loading="lazy"><span>Space<i>006</i></span></button>
-        <button class="thumb" type="button" data-cat="futur" data-acc="#ffd23f" data-src="arcade" data-name="Retro-Arcade" data-desc="Pixel font and an arcade-cabinet look."><img src="../assets/screens/design-arcade.jpg" width="1440" height="900" alt="" loading="lazy"><span>Retro-Arcade<i>007</i></span></button>
-        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#d6b27a" data-src="mittelalter" data-name="Medieval" data-desc="Parchment, wood and seals – with Roman numerals if you like."><img src="../assets/screens/design-mittelalter.jpg" width="1440" height="900" alt="" loading="lazy"><span>Medieval<i>008</i></span></button>
-        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#c69bff" data-src="fantasy" data-name="Fantasy" data-desc="Ornate frames and magical violet."><img src="../assets/screens/design-fantasy.jpg" width="1440" height="900" alt="" loading="lazy"><span>Fantasy<i>009</i></span></button>
-        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#ff3b4e" data-src="horror" data-name="Horror" data-desc="Blood-red digits on crooked instant photos."><img src="../assets/screens/design-horror.jpg" width="1440" height="900" alt="" loading="lazy"><span>Horror<i>010</i></span></button>
-        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#e0aa4a" data-src="steampunk" data-name="Steampunk" data-desc="Brass, rivets and the charm of old machines."><img src="../assets/screens/design-steampunk.jpg" width="1440" height="900" alt="" loading="lazy"><span>Steampunk<i>011</i></span></button>
-        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#e89a56" data-src="western" data-name="Wild West" data-desc="Every photo a wanted poster – “Wanted”, of course."><img src="../assets/screens/design-western.jpg" width="1440" height="900" alt="" loading="lazy"><span>Wild West<i>012</i></span></button>
-        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#ffe100" data-src="comic" data-name="Comic" data-desc="Bright yellow, bold outlines and numbers in a comic burst."><img src="../assets/screens/design-comic.jpg" width="1440" height="900" alt="" loading="lazy"><span>Comic<i>013</i></span></button>
-        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#2ef2d0" data-src="tiefsee" data-name="Deep Sea" data-desc="Glowing turquoise tiles, as if surfacing from dark water."><img src="../assets/screens/design-tiefsee.jpg" width="1440" height="900" alt="" loading="lazy"><span>Deep Sea<i>014</i></span></button>
-        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#f0c75e" data-src="aegypten" data-name="Ancient Egypt" data-desc="Sandstone, gold and numbers in oval cartouches."><img src="../assets/screens/design-aegypten.jpg" width="1440" height="900" alt="" loading="lazy"><span>Ancient Egypt<i>015</i></span></button>
-        <button class="thumb" type="button" data-cat="konzert" data-acc="#ffb000" data-src="buehne" data-name="Stage Light" data-desc="Moving stage lights, a follow spot on the selected photo and setlist numbers."><img src="../assets/screens/design-buehne.jpg" width="1440" height="900" alt="" loading="lazy"><span>Stage Light<i>016</i></span></button>
-        <button class="thumb" type="button" data-cat="konzert" data-acc="#ff8a1f" data-src="backstage" data-name="Backstage" data-desc="Flight case, numbers on gaffer tape and barrier tape."><img src="../assets/screens/design-backstage.jpg" width="1440" height="900" alt="" loading="lazy"><span>Backstage<i>017</i></span></button>
+        <button class="thumb" type="button" aria-current="true" data-cat="ausgefallen" data-acc="#ff3b4e" data-src="horror" data-name="Horror" data-desc="Blood-red digits on crooked instant photos."><img src="../assets/screens/design-horror.jpg" width="1440" height="900" alt="" loading="lazy"><span>Horror<i>001</i></span></button>
+        <button class="thumb" type="button" data-cat="ausgefallen" data-acc="#c69bff" data-src="fantasy" data-name="Fantasy" data-desc="Ornate frames and magical violet."><img src="../assets/screens/design-fantasy.jpg" width="1440" height="900" alt="" loading="lazy"><span>Fantasy<i>002</i></span></button>
+        <button class="thumb" type="button" data-cat="konzert" data-acc="#ffb000" data-src="buehne" data-name="Stage Light" data-desc="Moving stage lights, a follow spot on the selected photo and setlist numbers."><img src="../assets/screens/design-buehne.jpg" width="1440" height="900" alt="" loading="lazy"><span>Stage Light<i>003</i></span></button>
+      
       </div>
     </div>
 
-    <div class="switch-note">
+    <div class="more-designs">
+        <b class="more-n">+14</b>
+        <p class="more-t">more designs waiting in the app</p>
+        <ul class="more-list"><li>Neon Grid</li><li>Cyberpunk</li><li>Synthwave</li><li>Matrix</li><li>Hologram</li><li>Space</li><li>Retro-Arcade</li><li>Medieval</li><li>Steampunk</li><li>Wild West</li><li>Comic</li><li>Deep Sea</li><li>Ancient Egypt</li><li>Backstage</li></ul>
+        <a class="more-link" href="#designwahl">See them all in the design menu ↓</a>
+      </div>
+
+    <div class="switch-note" id="designwahl">
       <div class="rv">
         <h3>Switch in a second.</h3>
         <p>Open the palette menu or press <span class="k">T</span> – the new design is active instantly, and your numbers stay where they are.</p>
@@ -1238,7 +1239,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;background:#04050a}
     var t=thumbs[i];if(!t)return;curI=i;
     thumbs.forEach(function(x){x.setAttribute('aria-current',x===t?'true':'false')});
     sec.style.setProperty('--acc',t.dataset.acc);
-    pvIdx.textContent=pad(i+1)+' / 017 · '+catName[t.dataset.cat];
+    pvIdx.textContent=pad(i+1)+' / 003 · '+catName[t.dataset.cat];
     pvName.textContent=t.dataset.name;pvDesc.textContent=t.dataset.desc;
     var src='../assets/screens/design-'+t.dataset.src+'.jpg';
     if(pvImg.getAttribute('src')===src)return;
