@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Numora · Downloads</title>
+<link rel="icon" href="assets/numora-icon.png">
+<link href="assets/fonts/fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05070d; --ink:#e6ecff; --mute:#8a96b8; --mute2:#a9b4d3; --line:rgba(150,170,230,.14); --line2:rgba(150,170,230,.26);
+    --cyan:#22e4ff; --lila:#b25cff; --ok:#3cffb1; --warn:#ffb000;
+    --f-num:"Orbitron",ui-monospace,Consolas,monospace; --f-head:"Space Grotesk",system-ui,"Segoe UI",sans-serif; --f-body:"Manrope",system-ui,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{color:var(--ink);font:400 16px/1.6 var(--f-body);display:grid;place-items:center;padding:24px 16px;
+    background:radial-gradient(700px 360px at 85% -10%,rgba(178,92,255,.18),transparent 60%),radial-gradient(700px 360px at -10% 110%,rgba(34,228,255,.12),transparent 60%),
+      linear-gradient(rgba(150,170,230,.04) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(150,170,230,.04) 1px,transparent 1px) 0 0/44px 44px,var(--bg)}
+  .card{width:min(560px,100%);border:1px solid var(--line2);border-radius:22px;padding:clamp(22px,5vw,36px);background:rgba(12,18,34,.72);backdrop-filter:blur(12px);box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 50px rgba(34,228,255,.06)}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+  header img{width:40px;height:40px;border-radius:10px;box-shadow:0 0 20px rgba(34,228,255,.35)}
+  header h1{margin:0;font:700 20px/1.1 var(--f-num);letter-spacing:.04em}
+  header h1 b{background:linear-gradient(90deg,var(--cyan),var(--lila));-webkit-background-clip:text;background-clip:text;color:transparent}
+  header span{display:block;font:600 11px var(--f-head);letter-spacing:3px;text-transform:uppercase;color:var(--mute)}
+  .total{text-align:center;padding:10px 0 22px;border-bottom:1px solid var(--line)}
+  .total small{font:700 11px var(--f-head);letter-spacing:3px;text-transform:uppercase;color:var(--mute)}
+  .num{font:800 clamp(64px,18vw,104px)/1 var(--f-num);letter-spacing:.02em;margin:10px 0 6px;background:linear-gradient(180deg,#fff,#bfe9ff 55%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 40px rgba(34,228,255,.25)}
+  .delta{display:inline-block;font:700 13px var(--f-head);padding:6px 12px;border-radius:999px;border:1px solid var(--line2);color:var(--mute2)}
+  .delta.up{color:var(--ok);border-color:rgba(60,255,177,.45);background:rgba(60,255,177,.08)}
+  table{width:100%;border-collapse:collapse;margin:18px 0 6px}
+  th{text-align:left;font:700 11px var(--f-head);letter-spacing:2px;text-transform:uppercase;color:var(--mute);padding:8px 6px;border-bottom:1px solid var(--line)}
+  td{padding:11px 6px;border-bottom:1px solid var(--line);font:500 15px var(--f-head)}
+  td.n{text-align:right;font:700 17px var(--f-num);color:var(--cyan)}
+  th.n{text-align:right}
+  td .date{display:block;font:400 12.5px var(--f-body);color:var(--mute)}
+  tr.latest td:first-child::after{content:"aktuell";margin-left:8px;font:700 10px var(--f-head);letter-spacing:1px;text-transform:uppercase;color:#021018;background:var(--cyan);padding:2px 7px;border-radius:999px;vertical-align:2px}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px}
+  .status{font-size:13px;color:var(--mute)}
+  .status.err{color:var(--warn)}
+  button{font:600 14px var(--f-head);color:#021018;background:var(--cyan);border:0;border-radius:11px;padding:11px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 0 0 1px rgba(34,228,255,.4),0 10px 30px -10px rgba(34,228,255,.6);transition:transform .2s}
+  button:hover{transform:translateY(-2px)}
+  button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  button svg{width:16px;height:16px}
+  button.spin svg{animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .links{margin-top:16px;font-size:13px;color:var(--mute)}
+  .links a{color:var(--mute2)}
+  @media (prefers-reduced-motion:reduce){button.spin svg{animation:none}}
+</style>
+</head>
+<body>
+<main class="card">
+  <header>
+    <img src="assets/numora-icon.png" alt="" width="40" height="40" onerror="this.remove()">
+    <div><span>Download-Zähler</span><h1>Num<b>ora</b></h1></div>
+  </header>
+
+  <section class="total" aria-live="polite">
+    <small>Downloads gesamt</small>
+    <div class="num" id="total">–</div>
+    <span class="delta" id="delta">wird geladen …</span>
+  </section>
+
+  <table>
+    <thead><tr><th>Version</th><th class="n">Downloads</th></tr></thead>
+    <tbody id="rows"><tr><td colspan="2" class="status">Lade Daten von GitHub …</td></tr></tbody>
+  </table>
+
+  <div class="foot">
+    <span class="status" id="status">–</span>
+    <button type="button" id="refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>Aktualisieren</button>
+  </div>
+  <p class="links">Quelle: <a href="https://github.com/khoron-ip/numora/releases" target="_blank" rel="noopener">GitHub Releases</a> · aktualisiert sich alle 5 Minuten von selbst</p>
+</main>
+
+<script>
+// Liest die Download-Zahlen der Numora-Releases live von der öffentlichen GitHub-API
+const API = 'https://api.github.com/repos/khoron-ip/numora/releases?per_page=100';
+const KEY = 'numora.downloads.last';
+const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString('de-DE');
+let shown = 0;
+
+function store(k, v) { try { v === undefined ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} }
+function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+function countUp(to) {
+  const from = shown, t0 = performance.now(), dur = 900;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || from === to) { $('total').textContent = fmt(to); shown = to; return; }
+  (function step(t) {
+    const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    $('total').textContent = fmt(Math.round(from + (to - from) * e));
+    if (p < 1) requestAnimationFrame(step); else shown = to;
+  })(t0);
+}
+
+async function refresh() {
+  const btn = $('refresh');
+  btn.classList.add('spin'); btn.disabled = true;
+  try {
+    const r = await fetch(API, { headers: { Accept: 'application/vnd.github+json' }, cache: 'no-store' });
+    if (r.status === 403 || r.status === 429) throw new Error('GitHub-Abfragelimit erreicht – bitte in ein paar Minuten erneut versuchen.');
+    if (!r.ok) throw new Error('GitHub antwortet nicht (HTTP ' + r.status + ').');
+    const releases = (await r.json()).filter(x => !x.draft);
+    const rows = releases.map(rel => ({
+      name: rel.name || rel.tag_name,
+      date: new Date(rel.published_at || rel.created_at),
+      n: rel.assets.filter(a => /\.exe$/i.test(a.name)).reduce((s, a) => s + a.download_count, 0)
+    }));
+    const total = rows.reduce((s, x) => s + x.n, 0);
+
+    $('rows').innerHTML = '';
+    rows.forEach((x, i) => {
+      const tr = document.createElement('tr');
+      if (i === 0) tr.className = 'latest';
+      const a = document.createElement('td'), b = document.createElement('td');
+      a.textContent = x.name;
+      const d = document.createElement('span'); d.className = 'date';
+      d.textContent = 'veröffentlicht am ' + x.date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      a.appendChild(d);
+      b.className = 'n'; b.textContent = fmt(x.n);
+      tr.append(a, b); $('rows').appendChild(tr);
+    });
+    if (!rows.length) $('rows').innerHTML = '<tr><td colspan="2" class="status">Noch keine Releases veröffentlicht.</td></tr>';
+
+    // Vergleich mit dem letzten Aufruf in diesem Browser
+    const last = JSON.parse(load(KEY) || 'null');
+    const delta = $('delta');
+    if (last && typeof last.total === 'number') {
+      const diff = total - last.total;
+      const when = new Date(last.at).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+      delta.className = 'delta' + (diff > 0 ? ' up' : '');
+      delta.textContent = diff > 0 ? '+' + fmt(diff) + ' seit ' + when : 'keine neuen seit ' + when;
+    } else {
+      delta.className = 'delta';
+      delta.textContent = 'erster Aufruf – ab jetzt siehst du neue Downloads';
+    }
+    if (!last || last.total !== total) store(KEY, JSON.stringify({ total, at: Date.now() }));
+
+    countUp(total);
+    $('status').className = 'status';
+    $('status').textContent = 'Stand: ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr';
+  } catch (e) {
+    $('status').className = 'status err';
+    $('status').textContent = e.message || 'Keine Verbindung zu GitHub.';
+    if ($('total').textContent === '–') $('delta').textContent = 'keine Daten';
+  } finally {
+    btn.classList.remove('spin'); btn.disabled = false;
+  }
+}
+
+$('refresh').addEventListener('click', refresh);
+refresh();
+setInterval(refresh, 5 * 60 * 1000);
+</script>
+</body>
+</html>
